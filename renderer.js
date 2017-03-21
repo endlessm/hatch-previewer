@@ -4,6 +4,7 @@
 
 hatchFolder = '../hatch_aP1Ran';
 const fs = require('fs');
+main = require('electron').remote.require('./main');
 $ = require('jquery');
 
 function loadManifest(path) {
@@ -23,6 +24,7 @@ function logMapElements(value, key, map) {
 
 preview = function(ID) {
   console.log('preview("' + ID + '")');
+  main.loadPreview(ID);
 }
 
 $(document).ready(function(){

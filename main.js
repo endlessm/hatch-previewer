@@ -7,8 +7,6 @@ const BrowserWindow = electron.BrowserWindow
 const path = require('path')
 const url = require('url')
 const fs = require('fs')
-hatchFolder = '../hatch_aP1Ran'
-
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -29,6 +27,8 @@ function loadMetadata(path, id) {
 }
 
 function initApp() {
+
+  hatchFolder = process.argv[2]
 
   assetMap = new Map()
   loadManifest(hatchFolder).assets.forEach(function(id) {
@@ -90,8 +90,6 @@ app.on('window-all-closed', function () {
 // code. You can also put them in separate files and require them here.
 
 exports.loadPreview = function(ID) {
-  console.log('main.loadPreview("' + ID + '")')
-  // previewWindow.webContents.executeJavaScript("setAssetID("+ID+")")
   previewWindow.webContents.executeJavaScript('setAssetID("' + ID +'")');
   metadataWindow.webContents.executeJavaScript('setAssetID("' + ID +'")');
 }

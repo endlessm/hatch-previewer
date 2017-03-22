@@ -14,6 +14,7 @@ hatchFolder = '../hatch_aP1Ran'
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 let previewWindow
+let metadataWindow
 
 let assetMap
 
@@ -39,6 +40,7 @@ function initApp() {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 400, height: 600})
   previewWindow = new BrowserWindow({width: 800, height: 600})
+  metadataWindow = new BrowserWindow({width: 400, height: 600})
 
   // and load the asset list html
   mainWindow.loadURL(url.format({
@@ -50,6 +52,13 @@ function initApp() {
   // load the asset preview html
   previewWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'preview.html'),
+    protocol: 'file:',
+    slashes: true
+  }))
+
+  // load the metadata html
+  metadataWindow.loadURL(url.format({
+    pathname: path.join(__dirname, 'metadata.html'),
     protocol: 'file:',
     slashes: true
   }))
@@ -84,4 +93,5 @@ exports.loadPreview = function(ID) {
   console.log('main.loadPreview("' + ID + '")')
   // previewWindow.webContents.executeJavaScript("setAssetID("+ID+")")
   previewWindow.webContents.executeJavaScript('setAssetID("' + ID +'")');
+  metadataWindow.webContents.executeJavaScript('setAssetID("' + ID +'")');
 }

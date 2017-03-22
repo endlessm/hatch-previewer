@@ -27,7 +27,10 @@ function loadMetadata(path, id) {
 }
 
 function initApp() {
-
+  if (process.argv.length < 3) {
+    console.log("usage: " + process.argv[0] + " " + process.argv[1] + " <hatch directory>")
+    process.exit(1)
+  }
   hatchFolder = process.argv[2]
 
   assetMap = new Map()
@@ -93,3 +96,4 @@ exports.loadPreview = function(ID) {
   previewWindow.webContents.executeJavaScript('setAssetID("' + ID +'")');
   metadataWindow.webContents.executeJavaScript('setAssetID("' + ID +'")');
 }
+

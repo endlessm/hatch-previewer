@@ -40,13 +40,14 @@ function initApp() {
   mainWindow = new BrowserWindow({width: 400, height: 600})
   previewWindow = new BrowserWindow({width: 800, height: 600})
 
-  // and load the index.html of the app.
+  // and load the asset list html
   mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'index.html'),
+    pathname: path.join(__dirname, 'assetlist.html'),
     protocol: 'file:',
     slashes: true
   }))
 
+  // load the asset preview html
   previewWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'preview.html'),
     protocol: 'file:',

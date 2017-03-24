@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+'use strict'
+
+const electron = require('electron');
+const path = require('path');
+const proc = require('child_process');
+
+
+const allArgs = process.argv;
+const passedArgs = allArgs.slice(2);
+
+// Assume first that we're within libingester
+// then try to load us as a module if we're imported
+let pathToLibingesterModule = __dirname + '/../..'
+try {
+    pathToLibingesterModule = path.dirname(require.resolve('libingester'));
+} catch(e) {
+  // Ignore - we're not in a dependent module
+}
+
+
+console.log(`Using path: ${pathToLibingesterModule}`);
+
+// Start app
+var child = proc.spawnSync(electron,
+                           ['.', ...passedArgs],
+                           { cwd:`${pathToLibingesterModule}/previewer`,
+                             detached: true,
+                             stdio: "inherit" });
+
+console.log('Done');

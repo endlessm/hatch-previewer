@@ -5,9 +5,6 @@
     "start": "electron ."
   },
   "main": "main.js",
-  "devDependencies": {
-    "electron": "^1.4.1"
-  },
   "dependencies": {
     "jquery": "^1.7.4"
   }

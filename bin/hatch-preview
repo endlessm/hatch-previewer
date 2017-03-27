@@ -27,10 +27,11 @@ console.log(passedArgs);
 console.log(`Using path: ${pathToLibingesterModule}`);
 
 // Start app
-var child = proc.spawnSync(electron,
-                           ['.', ...passedArgs],
-                           { cwd:`${pathToLibingesterModule}/previewer`,
-                             detached: true,
-                             stdio: "inherit" });
-
-console.log('Done');
+var child = proc.spawn(electron,
+                       ['.', ...passedArgs],
+                       { cwd:`${pathToLibingesterModule}/previewer`,
+                         detached: true,
+                         stdio: "inherit" });
+child.on('close', (code) => {
+    process.exit(code);
+});

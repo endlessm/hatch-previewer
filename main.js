@@ -32,11 +32,18 @@ function initApp() {
     process.exit(1)
   }
   hatchFolder = process.argv[2]
+  console.log("Using hatch folder: " + hatchFolder);
 
   assetMap = new Map()
-  loadManifest(hatchFolder).assets.forEach(function(id) {
-      assetMap.set(id, loadMetadata(hatchFolder, id))
-  })
+
+  try {
+      loadManifest(hatchFolder).assets.forEach(function(id) {
+          assetMap.set(id, loadMetadata(hatchFolder, id))
+      });
+  } catch(e) {
+    console.log(e);
+    process.exit(1)
+  }
   exports.assetMap = assetMap
   exports.hatchFolder = hatchFolder
 

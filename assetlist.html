@@ -18,6 +18,11 @@
 
   <script>
     // You can also require other files to run in this process
-    require('./assetlist_renderer.js')
+    try {
+      require('./assetlist_renderer.js')
+    } catch(e) {
+      console.log(e.message);
+      alert(e.message);
+    }
   </script>
 </html>

@@ -37,7 +37,8 @@ function initApp() {
   assetMap = new Map()
 
   try {
-      loadManifest(hatchFolder).assets.forEach(function(id) {
+      loadManifest(hatchFolder).assets.forEach(function(asset) {
+          const id = asset.asset_id;
           assetMap.set(id, loadMetadata(hatchFolder, id))
       });
   } catch(e) {

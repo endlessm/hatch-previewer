@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Asset preview</title>
+  </head>
+  <body>
+    <div id='preview'></div>
+  </body>
+
+  <script>
+    // You can also require other files to run in this process
+    try {
+      require('./preview_renderer.js')
+    } catch(e) {
+      console.log(e.message);
+      alert(e.message);
+    }
+  </script>
+</html>

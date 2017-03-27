@@ -1,0 +1,13 @@
+{
+  "name": "preview-hatch",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "electron ."
+  },
+  "main": "main.js",
+  "//": "XXX: Make sure to add these dependencies to libingester too",
+  "//": "     https://github.com/npm/npm/issues/13734",
+  "dependencies": {
+    "jquery": "^1.7.4"
+  }
+}

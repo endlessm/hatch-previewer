@@ -1,0 +1,14 @@
+{
+  "name": "preview-hatch",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "electron ."
+  },
+  "main": "main.js",
+  "devDependencies": {
+    "electron": "^1.4.1"
+  },
+  "dependencies": {
+    "jquery": "^1.7.4"
+  }
+}

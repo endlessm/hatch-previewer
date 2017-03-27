@@ -18,6 +18,11 @@ try {
   // Ignore - we're not in a dependent module
 }
 
+// Convert potentially relative path of hatch dir to absolute
+// since we will be changing the working dir
+passedArgs[0] = path.resolve(passedArgs[0]);
+
+console.log(passedArgs);
 
 console.log(`Using path: ${pathToLibingesterModule}`);
 

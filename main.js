@@ -23,6 +23,8 @@ function loadManifest(path) {
 
 function loadMetadata(path, id) {
   var metadata = JSON.parse(fs.readFileSync(path + '/' + id + '.metadata', 'utf8'))
+
+  metadata['path'] = path + '/' + metadata.cdnFilename;
   return metadata
 }
 

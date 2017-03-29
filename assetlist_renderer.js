@@ -17,20 +17,26 @@ $(document).ready(function(){
   assetMap.forEach(function(asset) {
     if (asset.objectType == "ImageObject") {
       $('#imageList').append(
-        $('<li/>').append(
-          $('<a/>')
-            .attr('onclick', 'preview("' + asset.assetID + '")')
-            .attr('id', asset.assetID)
-            .text(asset.assetID)
+        $('<tr/>')
+         .attr('onclick', 'preview("' + asset.assetID + '")')
+         .append(
+            $('<td/>').append(
+              $('<a/>')
+                .attr('id', asset.assetID)
+                .text(asset.assetID)
+          )
         )
       )
     } else if (asset.objectType == "ArticleObject") {
       $('#documentList').append(
-        $('<li/>').append(
-          $('<a/>')
-            .attr('onclick', 'preview("' + asset.assetID + '")')
-            .attr('id', asset.assetID)
-            .text(asset.title)
+        $('<tr/>')
+         .attr('onclick', 'preview("' + asset.assetID + '")')
+         .append(
+            $('<td/>').append(
+              $('<a/>')
+                .attr('id', asset.assetID)
+                .text(asset.title)
+          )
         )
       )
     } else {

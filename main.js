@@ -53,7 +53,7 @@ function initApp() {
   const icon = __dirname + '/previewer.png';
 
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 400, height: 600, icon: icon})
+  mainWindow = new BrowserWindow({width: 500, height: 600, icon: icon})
   previewWindow = new BrowserWindow({width: 800, height: 600, icon: icon})
   metadataWindow = new BrowserWindow({width: 400, height: 600, icon: icon})
 

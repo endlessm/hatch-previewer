@@ -48,10 +48,12 @@ function initApp() {
   exports.assetMap = assetMap
   exports.hatchFolder = hatchFolder
 
+  const icon = __dirname + '/previewer.png';
+
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 400, height: 600})
-  previewWindow = new BrowserWindow({width: 800, height: 600})
-  metadataWindow = new BrowserWindow({width: 400, height: 600})
+  mainWindow = new BrowserWindow({width: 400, height: 600, icon: icon})
+  previewWindow = new BrowserWindow({width: 800, height: 600, icon: icon})
+  metadataWindow = new BrowserWindow({width: 400, height: 600, icon: icon})
 
   // and load the asset list html
   mainWindow.loadURL(url.format({

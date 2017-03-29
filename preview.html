@@ -6,7 +6,19 @@
     <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   </head>
   <body>
-    <div id='preview'></div>
+    <nav class='navbar navbar-light bg-faded' id='flip_controls'>
+      <div class='container'>
+        <button type='button' class='btn btn-primary  btn-lg btn-block' onClick='flipPage();'>Flip</button>
+      </div>
+    </nav>
+
+    <span class='border-1 mt-4'>
+      <div class='container mt-1 bg-faded' id='source_code'>
+        <code id='source_code_content'></code>
+      </div>
+
+      <div class='container center-block mt-1' id='preview'></div>
+    </span>
   </body>
 
   <script>

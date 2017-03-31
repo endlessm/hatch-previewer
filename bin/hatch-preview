@@ -35,3 +35,9 @@ var child = proc.spawn(electron,
 child.on('close', (code) => {
     process.exit(code);
 });
+
+process.on('SIGINT', () => {
+    // We want the child to go away if we ctrl-c out of the console
+    child.kill();
+    process.exit();
+});

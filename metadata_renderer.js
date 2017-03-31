@@ -4,42 +4,57 @@ $ = require('jquery')
 assetMap = main.assetMap
 hatchFolder = main.hatchFolder
 
+const visibleProps = [ 'assetID',
+                       'objectType',
+                       'contentType',
+
+                       'canonicalURI',
+                       'matchingLinks',
+
+                       'title',
+                       'license',
+                       'tags',
+                       'lastModifiedDate',
+                       'revisionTag' ]
+
 $(document).ready(function(){
 })
 
-function propertyToRow(asset, prop) {
-  propValue = asset[prop]
-  var row = $('<tr />')
-  row.append($('<td />').text(prop))
-  row.append($('<td />').text(propValue))
-  return row
-}
 
 setAssetID = function(ID) {
+  $('#metadata').html("")
+
   if (ID != null) {
     var asset = assetMap.get(ID)
     console.log(asset)
-    $('#metadata').html("<h2>" + asset.title + "</h2>")
-    $('#metadata').append($('<table />').attr("id", "metadataTable"))
-    var props = [
-      "assetID",
-      "objectType",
-      "contentType",
+    $('#metadata').append(
+      $('<table/>')
+        .attr('class', 'table table-striped table-hover table-sm')
+        .attr('id', 'metadata_table')
+        .append(
+          $('<thead/>').append(
+            $('<tr/>').append(
+              $('<th/>').text('Title')
+            ).append(
+              $('<th/>').text(asset.title || "Unknown")
+            )
+          )
+      )
+    )
 
-      "canonicalURI",
-      "matchingLinks",
-
-      "title",
-      "license",
-      "tags",
-      "lastModifiedDate",
-      "revisionTag"
-    ]
-    props.forEach(function(prop) {
-      $('#metadataTable').append(propertyToRow(asset, prop))
+    visibleProps.forEach(function(prop) {
+      $('#metadata_table').append(
+          $('<thead/>').append(
+            $('<tr/>').append(
+              $('<td/>').text(prop)
+            ).append(
+              $('<td/>').text(asset[prop])
+            )
+          )
+       )
     })
   } else {
-    $('#metadata').html("<h2>No asset selected</h2>")
+    $('#metadata').html("<center><h2>No asset selected</h2></center>")
   }
 }
 

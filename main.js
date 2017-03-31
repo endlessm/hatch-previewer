@@ -23,6 +23,8 @@ function loadManifest(path) {
 
 function loadMetadata(path, id) {
   var metadata = JSON.parse(fs.readFileSync(path + '/' + id + '.metadata', 'utf8'))
+
+  metadata['path'] = path + '/' + metadata.cdnFilename;
   return metadata
 }
 
@@ -51,9 +53,9 @@ function initApp() {
   const icon = __dirname + '/previewer.png';
 
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 400, height: 600, icon: icon})
+  mainWindow = new BrowserWindow({width: 500, height: 600, icon: icon})
   previewWindow = new BrowserWindow({width: 800, height: 600, icon: icon})
-  metadataWindow = new BrowserWindow({width: 400, height: 600, icon: icon})
+  metadataWindow = new BrowserWindow({width: 500, height: 550, icon: icon})
 
   // and load the asset list html
   mainWindow.loadURL(url.format({

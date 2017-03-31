@@ -8,6 +8,7 @@
   "//": "XXX: Make sure to add these dependencies to libingester too",
   "//": "     https://github.com/npm/npm/issues/13734",
   "dependencies": {
+    "bootstrap": "^4.0.0-alpha.6",
     "jquery": "^1.7.4"
   }
 }

@@ -11,9 +11,6 @@ const fs = require('fs')
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
-let previewWindow
-let metadataWindow
-
 let assetMap
 
 function loadManifest(path) {
@@ -47,36 +44,35 @@ function initApp() {
     console.log(e);
     process.exit(1)
   }
+
+  // Sort assets map for easy finding of things
+  assetMap = new Map([...assetMap.entries()].sort());
+
   exports.assetMap = assetMap
   exports.hatchFolder = hatchFolder
 
   const icon = __dirname + '/previewer.png';
 
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 500, height: 600, icon: icon})
-  previewWindow = new BrowserWindow({width: 800, height: 600, icon: icon})
-  metadataWindow = new BrowserWindow({width: 500, height: 550, icon: icon})
+  mainWindow = new BrowserWindow({minWidth: 700,
+                                  minHeight: 200,
+                                  width: 1300,
+                                  height: 700,
+                                  useContentSize: true,
+                                  title: 'Hatch Previewer',
+                                  acceptFirstMouse: true,
+                                  autoHideMenuBar: true,
+                                  thickFrame: true,
+                                  zoomFactor: 3.0,
+                                  icon: icon})
 
   // and load the asset list html
   mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'assetlist.html'),
+    pathname: path.join(__dirname, 'main.html'),
     protocol: 'file:',
     slashes: true
   }))
 
-  // load the asset preview html
-  previewWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'preview.html'),
-    protocol: 'file:',
-    slashes: true
-  }))
-
-  // load the metadata html
-  metadataWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'metadata.html'),
-    protocol: 'file:',
-    slashes: true
-  }))
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
@@ -105,7 +101,5 @@ app.on('window-all-closed', function () {
 // code. You can also put them in separate files and require them here.
 
 exports.loadPreview = function(ID) {
-  previewWindow.webContents.executeJavaScript('setAssetID("' + ID +'")');
-  metadataWindow.webContents.executeJavaScript('setAssetID("' + ID +'")');
 }
 

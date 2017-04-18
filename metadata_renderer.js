@@ -21,7 +21,7 @@ $(document).ready(function(){
 })
 
 
-setAssetID = function(ID) {
+setMetadataAssetID = function(ID) {
   $('#metadata').html("")
 
   if (ID != null) {
@@ -29,7 +29,7 @@ setAssetID = function(ID) {
     console.log(asset)
     $('#metadata').append(
       $('<table/>')
-        .attr('class', 'table table-striped table-hover table-sm')
+        .attr('class', 'table table-striped table-hover table-sm smaller')
         .attr('id', 'metadata_table')
         .append(
           $('<thead/>').append(
@@ -54,8 +54,8 @@ setAssetID = function(ID) {
        )
     })
   } else {
-    $('#metadata').html("<center><h2>No asset selected</h2></center>")
+    $('#metadata').html("<center><h6>No asset selected</h6></center>")
   }
 }
 
-setAssetID(null)
+setMetadataAssetID(null)

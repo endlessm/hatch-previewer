@@ -22,7 +22,7 @@ flipPage = function() {
   showingSource = !showingSource;
 }
 
-setAssetID = function(ID) {
+setPreviewAssetID = function(ID) {
   if (!ID) {
     $('#preview').html("<center><h2>No asset selected</h2></center>")
     return;
@@ -52,11 +52,13 @@ setAssetID = function(ID) {
   } else if (asset.objectType == "ImageObject") {
     image_asset = $('<img />', { id: 'image_asset',
                                  src: asset.path,
-                                 class: 'm-3 m-x-auto d-block' });
-    image_asset.appendTo($('#preview'));
+                                 class: 'centered mx-auto' });
+    $('#preview').append(
+        image_asset
+    )
   } else {
     $('#preview').html("<center><h2>Unsupported asset type (" + asset.objectType + ")!</h2></center>")
   }
 }
 
-setAssetID(null)
+setPreviewAssetID(null)

@@ -13,6 +13,7 @@ const visibleProps = [ 'assetID',
 
                        'title',
                        'synopsis',
+                       'thumbnail',
                        'license',
                        'tags',
                        'lastModifiedDate',

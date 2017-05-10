@@ -12,6 +12,7 @@ $(document).ready(function(){
 })
 
 flipPage = function() {
+  showingSource = !showingSource;
   if (showingSource) {
     $('#preview').hide();
     $('#source_code').show();
@@ -19,7 +20,6 @@ flipPage = function() {
     $('#source_code').hide();
     $('#preview').show();
   }
-  showingSource = !showingSource;
 }
 
 setPreviewAssetID = function(ID) {

@@ -45,6 +45,12 @@ html,body {
   display: block;
 }
 
+.thumbnail {
+  max-width: 3em;
+  max-height: 2em;
+  margin-right: 0.5em;
+}
+
 .asset-pane {
   border-right-style: ridge;
 }

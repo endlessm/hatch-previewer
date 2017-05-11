@@ -12,6 +12,8 @@ const visibleProps = [ 'assetID',
                        'matchingLinks',
 
                        'title',
+                       'synopsis',
+                       'thumbnail',
                        'license',
                        'tags',
                        'lastModifiedDate',

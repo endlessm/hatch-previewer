@@ -6,6 +6,7 @@ main = require('electron').remote.require('./main')
 $ = require('jquery')
 
 assetMap = main.assetMap
+hatchFolder = main.hatchFolder
 
 preview = function(ID) {
   console.log('preview("' + ID + '")')
@@ -42,12 +43,17 @@ $(document).ready(function(){
         )
       )
     } else if (asset.objectType == "ArticleObject") {
+      let thumbnail_img = '';
+      if (asset.thumbnail)
+        thumbnail_img = $('<img />', { src: hatchFolder + "/" + asset.thumbnail + ".data",
+                                       class: 'thumbnail' });
       $('#documentList').append(
         $('<tr/>')
           .attr('onclick', 'preview("' + asset.assetID + '")')
           .append(
             $('<td/>')
               .attr('class', 'text-center')
+              .append(thumbnail_img)
               .append(
                 $('<a/>')
                   .attr('id', asset.assetID)

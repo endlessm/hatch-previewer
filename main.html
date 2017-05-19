@@ -3,7 +3,10 @@
   <head>
     <meta charset="UTF-8">
     <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./css/styles.css">
+    <!-- If we are running as a library, we need a different path resolution -->
+    <link href="../../bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="./css/styles.css" rel="stylesheet" >
   </head>
 
   <body>

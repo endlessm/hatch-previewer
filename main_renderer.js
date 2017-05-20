@@ -29,12 +29,17 @@ getShortenedID = function(ID) {
 $(document).ready(function(){
   assetMap.forEach(function(asset) {
     if (asset.objectType == "ImageObject") {
+      thumbnail_img = $('<img />', { src: hatchFolder + "/" + asset.assetID + ".data",
+                                     class: 'thumbnail' });
+
       $('#imageList').append(
         $('<tr/>')
           .attr('onclick', 'preview("' + asset.assetID + '")')
           .append(
             $('<td/>')
               .attr('class', 'text-center')
+              .append(thumbnail_img)
+              .append('<br />')
               .append(
                 $('<a/>')
                   .attr('id', asset.assetID)
@@ -45,8 +50,11 @@ $(document).ready(function(){
     } else if (asset.objectType == "ArticleObject") {
       let thumbnail_img = '';
       if (asset.thumbnail)
-        thumbnail_img = $('<img />', { src: hatchFolder + "/" + asset.thumbnail + ".data",
-                                       class: 'thumbnail' });
+        thumbnail_img = $('<img />', { src: hatchFolder + "/" + asset.assetID + ".data",
+                                       class: 'thumbnail' }).append(
+          $('<br />')
+        );
+
       $('#documentList').append(
         $('<tr/>')
           .attr('onclick', 'preview("' + asset.assetID + '")')

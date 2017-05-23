@@ -46,9 +46,8 @@ html,body {
 }
 
 .thumbnail {
-  max-width: 3em;
-  max-height: 2em;
-  margin-right: 0.5em;
+  max-width: 2.5em;
+  max-height: 1.7em;
 }
 
 .asset-pane {

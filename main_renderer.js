@@ -50,7 +50,7 @@ $(document).ready(function(){
     } else if (asset.objectType == "ArticleObject") {
       let thumbnail_img = '';
       if (asset.thumbnail)
-        thumbnail_img = $('<img />', { src: hatchFolder + "/" + asset.assetID + ".data",
+        thumbnail_img = $('<img />', { src: hatchFolder + "/" + asset.thumbnail + ".data",
                                        class: 'thumbnail' }).append(
           $('<br />')
         );

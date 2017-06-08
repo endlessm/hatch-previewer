@@ -9,29 +9,36 @@ showingSource = false;
 $(document).ready(function(){
   $('#flip_controls').hide();
   $('#source_code').hide();
+  $('#image_asset').hide();
 })
 
 flipPage = function() {
   showingSource = !showingSource;
   if (showingSource) {
-    $('#preview').hide();
+    $('#preview_frame').hide();
+    $('#image_preview').hide();
     $('#source_code').show();
   } else {
+    $('#preview_frame').show();
+    $('#image_preview').show();
     $('#source_code').hide();
-    $('#preview').show();
   }
 }
 
 setPreviewAssetID = function(ID) {
   if (!ID) {
-    $('#preview').html("<center><h2>No asset selected</h2></center>")
+    $('#preview_frame').html("<center><h2>No asset selected</h2></center>")
     return;
   }
 
   showingSource = false;
   $('#source_code').hide();
-  $('#preview').show();
-  $('#image_asset').remove();
+  $('#preview_frame').show();
+  $('#image_preview').show();
+
+  $('#image_preview').html('');
+  $('#preview_frame').contents().find('html').html('');
+  $('#preview_frame_holder').removeClass('preview-frame-holder');
 
   var asset = assetMap.get(ID)
 
@@ -43,9 +50,10 @@ setPreviewAssetID = function(ID) {
     $('#flip_controls').hide();
   }
 
-  $('#preview').html(asset.document || "")
   if (asset.document) {
-    $('#preview img').each(function() {
+    $('#preview_frame_holder').addClass('preview-frame-holder');
+    $('#preview_frame').contents().find('html').find('body').html(asset.document || "")
+    $('#preview_frame').contents().find('html').find('img').each(function() {
       var imgID = $(this).attr("data-soma-job-id")
       $(this).attr("src", hatchFolder + "/" + imgID + ".data")
     })
@@ -53,11 +61,11 @@ setPreviewAssetID = function(ID) {
     image_asset = $('<img />', { id: 'image_asset',
                                  src: asset.path,
                                  class: 'centered mx-auto' });
-    $('#preview').append(
+    $('#image_preview').append(
         image_asset
     )
   } else {
-    $('#preview').html("<center><h2>Unsupported asset type (" + asset.objectType + ")!</h2></center>")
+    $('#image_preview').html("<center><h2>Unsupported asset type (" + asset.objectType + ")!</h2></center>")
   }
 }
 

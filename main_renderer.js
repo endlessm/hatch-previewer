@@ -48,12 +48,14 @@ $(document).ready(function(){
         )
       )
     } else if (asset.objectType == "ArticleObject") {
-      let thumbnail_img = '';
-      if (asset.thumbnail)
-        thumbnail_img = $('<img />', { src: hatchFolder + "/" + asset.thumbnail + ".data",
-                                       class: 'thumbnail' }).append(
-          $('<br />')
-        );
+      let thumbnail = '';
+      if (asset.thumbnail) {
+        const thumbnail_img = $('<img />', { src: hatchFolder + "/" + asset.thumbnail + ".data",
+                                           class: 'thumbnail' });
+        thumbnail = $('<div />')
+          .append(thumbnail_img)
+          .append($('<br />'));
+      }
 
       $('#documentList').append(
         $('<tr/>')
@@ -61,7 +63,7 @@ $(document).ready(function(){
           .append(
             $('<td/>')
               .attr('class', 'text-center')
-              .append(thumbnail_img)
+              .append(thumbnail)
               .append(
                 $('<a/>')
                   .attr('id', asset.assetID)

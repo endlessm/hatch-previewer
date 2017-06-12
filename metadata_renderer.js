@@ -4,6 +4,12 @@ $ = require('jquery')
 assetMap = main.assetMap
 hatchFolder = main.hatchFolder
 
+const extraPropsByModelType = {
+  'ArticleObject': ['authors', 'published', 'sourceName'],
+  'ImageObject': ['caption', 'height', 'width'],
+  'VideoObject': ['caption', 'duration', 'height', 'transcript', 'width']
+}
+
 const visibleProps = [ 'assetID',
                        'objectType',
                        'contentType',
@@ -22,6 +28,19 @@ const visibleProps = [ 'assetID',
 $(document).ready(function(){
 })
 
+function _appendProp($, asset, prop) {
+  if (!asset.hasOwnProperty(prop))
+    return
+  $('#metadata_table').append(
+      $('<thead/>').append(
+        $('<tr/>').append(
+          $('<td/>').text(prop)
+        ).append(
+          $('<td/>').text(asset[prop])
+        )
+      )
+   )
+}
 
 setMetadataAssetID = function(ID) {
   $('#metadata').html("")
@@ -44,17 +63,9 @@ setMetadataAssetID = function(ID) {
       )
     )
 
-    visibleProps.forEach(function(prop) {
-      $('#metadata_table').append(
-          $('<thead/>').append(
-            $('<tr/>').append(
-              $('<td/>').text(prop)
-            ).append(
-              $('<td/>').text(asset[prop])
-            )
-          )
-       )
-    })
+    visibleProps.forEach(prop => _appendProp($, asset, prop))
+    extraPropsByModelType[asset['objectType']].forEach(prop =>
+      _appendProp($, asset, prop))
   } else {
     $('#metadata').html("<center><h6>No asset selected</h6></center>")
   }

@@ -7,7 +7,8 @@ hatchFolder = main.hatchFolder
 const extraPropsByModelType = {
   'ArticleObject': ['authors', 'published', 'sourceName'],
   'ImageObject': ['caption', 'height', 'width'],
-  'VideoObject': ['caption', 'duration', 'height', 'transcript', 'width']
+  'VideoObject': ['caption', 'duration', 'height', 'transcript', 'width'],
+  'DictionaryObject': ['word', 'wordDefinition', 'partOfSpeech']
 }
 
 const visibleProps = [ 'assetID',

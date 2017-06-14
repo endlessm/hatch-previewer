@@ -30,16 +30,22 @@ function initApp() {
     console.log("usage: " + process.argv[0] + " " + process.argv[1] + " <hatch directory>")
     process.exit(1)
   }
+
   hatchFolder = process.argv[2]
   console.log("Using hatch folder: " + hatchFolder);
 
   assetMap = new Map()
 
+  let hatchLanguage, hatchName;
   try {
-      loadManifest(hatchFolder).assets.forEach(function(asset) {
+      const manifest = loadManifest(hatchFolder);
+      manifest.assets.forEach(function(asset) {
           const id = asset.asset_id;
           assetMap.set(id, loadMetadata(hatchFolder, id))
       });
+
+      hatchName = manifest.name || "Unknown";
+      hatchLanguage = manifest.language || "Unknown";
   } catch(e) {
     console.log(e);
     process.exit(1)
@@ -59,7 +65,7 @@ function initApp() {
                                   width: 1300,
                                   height: 700,
                                   useContentSize: true,
-                                  title: 'Hatch Previewer',
+                                  title: `Hatch Previewer - ${hatchName} (${hatchLanguage})`,
                                   acceptFirstMouse: true,
                                   autoHideMenuBar: true,
                                   thickFrame: true,

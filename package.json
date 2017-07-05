@@ -1,14 +1,15 @@
 {
   "name": "preview-hatch",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "start": "electron ."
   },
   "main": "main.js",
-  "//": "XXX: Make sure to add these dependencies to libingester too",
-  "//": "     https://github.com/npm/npm/issues/13734",
+  "//": "XXX: Make sure to add these dependencies to libingester too - https://github.com/npm/npm/issues/13734",
   "dependencies": {
     "bootstrap": "^4.0.0-alpha.6",
-    "jquery": "^1.7.4"
+    "js-beautify": "^1.6.14",
+    "jquery": "^1.7.4",
+    "node-syntaxhighlighter": "^0.8.1"
   }
 }

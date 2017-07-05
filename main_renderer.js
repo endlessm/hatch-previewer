@@ -2,11 +2,11 @@
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 
-main = require('electron').remote.require('./main')
-$ = require('jquery')
+const main = require('electron').remote.require('./main');
+const $ = require('jquery');
 
-assetMap = main.assetMap
-hatchFolder = main.hatchFolder
+const assetMap = main.assetMap;
+const hatchFolder = main.hatchFolder;
 
 preview = function(ID) {
   console.log('preview("' + ID + '")')

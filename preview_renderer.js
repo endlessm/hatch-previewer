@@ -1,10 +1,14 @@
-main = require('electron').remote.require('./main')
-$ = require('jquery')
+const main = require('electron').remote.require('./main');
 
-assetMap = main.assetMap
-hatchFolder = main.hatchFolder
+const $ = require('jquery');
+const nsh = require('node-syntaxhighlighter');
+const htmlFormatter = require('js-beautify').html;
 
-showingSource = false;
+
+const assetMap = main.assetMap
+const hatchFolder = main.hatchFolder
+
+let showingSource = false;
 
 $(document).ready(function(){
   $('#flip_controls').hide();
@@ -45,7 +49,8 @@ setPreviewAssetID = function(ID) {
   // Enable controls if we're an html document
   if (asset.document) {
     $('#flip_controls').show();
-    $('#source_code_content').text(asset.document).html();
+    const prettyHtml = htmlFormatter(asset.document);
+    $('#source_code_content').html(nsh.highlight(prettyHtml, nsh.getLanguage('xml')));
   } else {
     $('#flip_controls').hide();
   }

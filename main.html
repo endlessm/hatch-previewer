@@ -6,6 +6,10 @@
     <!-- If we are running as a library, we need a different path resolution -->
     <link href="../../bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <link href="../node_modules/node-syntaxhighlighter/lib/styles/shCoreDefault.css" rel="stylesheet">
+    <!-- If we are running as a library, we need a different path resolution -->
+    <link href="../../node-syntaxhighlighter/lib/styles/shCoreDefault.css" rel="stylesheet">
+
     <link href="./css/styles.css" rel="stylesheet" >
   </head>
 
@@ -61,8 +65,8 @@
             </button>
           </div>
           <span class='border-1 mt-4'>
-            <div class='container mt-1 bg-faded' id='source_code'>
-              <code id='source_code_content'></code>
+            <div class='code-block container mt-1 pt-2 bg-faded' id='source_code'>
+              <div id='source_code_content'></div>
             </div>
 
             <div class='container center-block mt-1' id='image_preview'></div>

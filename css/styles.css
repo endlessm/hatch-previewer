@@ -30,6 +30,11 @@ div.syntaxhighlighter > table {
   display: inline-block;
 }
 
+/* Match the button color for line number border */
+.syntaxhighlighter .gutter .line {
+    border-right: 2px solid #0275d8 !important;
+}
+
 .preview-frame-holder {
   height: calc(100% - 3.5em);
   padding: 0;

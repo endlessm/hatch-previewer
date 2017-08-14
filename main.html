@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
+
     <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- If we are running as a library, we need a different path resolution -->
     <link href="../../bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -100,6 +101,7 @@
     try {
       global.jQuery = require('jquery');
       global.Tether = require('tether');
+      global.Popper = require('popper.js')
       require('bootstrap');
 
       require('./main_renderer.js')

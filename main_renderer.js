@@ -47,7 +47,7 @@ $(document).ready(function(){
               )
         )
       )
-    } else if (asset.objectType == "ArticleObject" || asset.objectType == "DictionaryObjectModel") {
+    } else if (asset.objectType == "ArticleObject" || asset.objectType == "DictionaryWordObject") {
       let thumbnail = '';
       if (asset.thumbnail) {
         const thumbnail_img = $('<img />', { src: hatchFolder + "/" + asset.thumbnail + ".data",

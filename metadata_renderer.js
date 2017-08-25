@@ -8,7 +8,7 @@ const extraPropsByModelType = {
   'ArticleObject': ['authors', 'published', 'sourceName'],
   'ImageObject': ['caption', 'height', 'width'],
   'VideoObject': ['caption', 'duration', 'height', 'transcript', 'width'],
-  'DictionaryObjectModel': ['word', 'definition', 'partOfSpeech']
+  'DictionaryWordObject': ['word', 'definition', 'partOfSpeech']
 }
 
 const visibleProps = [ 'assetID',

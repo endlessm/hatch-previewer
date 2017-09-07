@@ -62,6 +62,22 @@ setPreviewAssetID = function(ID) {
       var imgID = $(this).attr("data-soma-job-id")
       $(this).attr("src", hatchFolder + "/" + imgID + ".data")
     })
+
+    // Append placeholders for videos
+    $('#preview_frame').contents().find('html').find("a[data-soma-widget='VideoLink']").each(function() {
+      let video_placeholder = $('<div>VIDEO PLACEHOLDER</div>');
+      video_placeholder.css("align-content", "center");
+      video_placeholder.css("background-color", "black");
+      video_placeholder.css("color", "#007bff");
+      video_placeholder.css("display", "inline-grid");
+      video_placeholder.css("font-size", "xx-large");
+      video_placeholder.css("font-weight", "bold");
+      video_placeholder.css("height", "20rem");
+      video_placeholder.css("justify-content", "center");
+      video_placeholder.css("width", "25rem");
+
+      $(this).append(video_placeholder);
+    });
   } else if (asset.objectType == "ImageObject") {
     image_asset = $('<img />', { id: 'image_asset',
                                  src: asset.path,

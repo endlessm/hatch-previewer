@@ -14,12 +14,12 @@ let mainWindow
 let assetMap
 
 function loadManifest(path) {
-  var manifest = JSON.parse(fs.readFileSync(path + '/hatch_manifest.json', 'utf8'))
+  const manifest = JSON.parse(fs.readFileSync(path + '/hatch_manifest.json', 'utf8'))
   return manifest
 }
 
 function loadMetadata(path, id) {
-  var metadata = JSON.parse(fs.readFileSync(path + '/' + id + '.metadata', 'utf8'))
+  const metadata = JSON.parse(fs.readFileSync(path + '/' + id + '.metadata', 'utf8'))
 
   metadata['path'] = path + '/' + metadata.cdnFilename;
   return metadata
@@ -108,4 +108,3 @@ app.on('window-all-closed', function () {
 
 exports.loadPreview = function(ID) {
 }
-

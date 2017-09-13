@@ -96,3 +96,8 @@ div.syntaxhighlighter > table {
   width: 100%;
   background-color: #f5f5f5;
 }
+
+.current {
+  font-weight: bold;
+  text-decoration: underline;
+}

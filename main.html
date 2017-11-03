@@ -100,6 +100,7 @@
     // You can also require other files to run in this process
     try {
       global.jQuery = require('jquery');
+      global.$ = global.jQuery;
       global.Tether = require('tether');
       global.Popper = require('popper.js')
       require('bootstrap');

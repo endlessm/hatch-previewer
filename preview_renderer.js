@@ -58,6 +58,7 @@ setPreviewAssetID = function(ID) {
   if (asset.document) {
     $('#preview_frame_holder').addClass('preview-frame-holder');
     $('#preview_frame').contents().find('html').find('body').html(asset.document || "")
+    $('#preview_frame').contents().find('body').scrollTop(0);
     $('#preview_frame').contents().find('html').find('img').each(function() {
       var imgID = $(this).attr("data-soma-job-id")
       $(this).attr("src", hatchFolder + "/" + imgID + ".data")

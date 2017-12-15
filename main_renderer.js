@@ -6,6 +6,7 @@ const main = require('electron').remote.require('./main');
 const $ = require('jquery');
 
 const assetMap = main.assetMap;
+const tagsMap = main.tagsMap;
 const hatchFolder = main.hatchFolder;
 
 preview = function(ID) {
@@ -82,4 +83,12 @@ $(document).ready(function(){
       console.log("unknown objectType: " + asset)
     }
   })
+
+    tagsMap.forEach(function(tagCount, tag) {
+        $('#tagList').append(
+          $('<span/>', {class: 'badge badge-primary'})
+            .text(`${tag} `)
+            .append($('<span/>', {class: 'badge badge-light'})
+              .text(`${tagCount}`)));
+    });
 })

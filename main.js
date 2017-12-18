@@ -35,6 +35,7 @@ function initApp() {
   console.log("Using hatch folder: " + hatchFolder);
 
   assetMap = new Map()
+  tagsMap = new Map()
 
   let hatchLanguage, hatchName;
   try {
@@ -42,6 +43,8 @@ function initApp() {
       manifest.assets.forEach(function(asset) {
           const id = asset.asset_id;
           assetMap.set(id, loadMetadata(hatchFolder, id))
+          assetMap.get(id).tags.forEach(tag =>
+              tagsMap.set(tag, (tagsMap.get(tag) || 0) + 1));
       });
 
       hatchName = manifest.name || "Unknown";
@@ -53,8 +56,10 @@ function initApp() {
 
   // Sort assets map for easy finding of things
   assetMap = new Map([...assetMap.entries()].sort());
+  tagsMap = new Map([...tagsMap.entries()].sort());
 
   exports.assetMap = assetMap
+  exports.tagsMap = tagsMap
   exports.hatchFolder = hatchFolder
 
   const icon = __dirname + '/previewer.png';

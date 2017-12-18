@@ -101,3 +101,20 @@ div.syntaxhighlighter > table {
   font-weight: bold;
   text-decoration: underline;
 }
+
+.tagList {
+  padding: 0.3em;
+}
+
+.tagList > .badge {
+  margin: 0.1em;
+  padding-top: 0.2em;
+}
+
+.tagList > .badge > .badge {
+  padding-top: 0.26em;
+  padding-bottom: 0.2em;
+  margin-top: 0em;
+  vertical-align: text-top;
+  margin-left: 0.1em;
+}

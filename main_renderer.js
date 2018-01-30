@@ -73,10 +73,10 @@ $(document).ready(function(){
         )
       )
 
-      // give a 'curent' class to clicked items in the documentList
+      // give an 'active' class to clicked items in the documentList
       $('tr').on('click', function(){
-        $(this).addClass('current');
-        $(this).siblings('.current').toggleClass('current');
+        $(this).addClass('table-active');
+        $(this).siblings('.table-active').toggleClass('table-active');
       })
 
     } else {

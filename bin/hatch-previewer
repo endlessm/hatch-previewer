@@ -1,0 +1,42 @@
+#!/usr/bin/env node
+'use strict'
+
+const electron = require('electron');
+const fs = require('fs');
+const path = require('path');
+const proc = require('child_process');
+
+
+const allArgs = process.argv;
+const passedArgs = allArgs.slice(2);
+
+// Try to load us as a module if we're imported, otherwise if /app/main exists,
+// assume we're running in a flatpak package. Lastly, run from the current
+// directory.
+let pathToHatchPreviewerModule = '/app/main';
+if (!fs.existsSync(pathToHatchPreviewerModule))
+    pathToHatchPreviewerModule = path.resolve('.');
+try {
+    pathToHatchPreviewerModule = path.dirname(require.resolve('hatch-previewer'));
+} catch (e) {
+    // Ignore - we're not in a dependent module
+}
+
+console.log(passedArgs);
+
+console.log(`Using path: ${pathToHatchPreviewerModule}`);
+
+// Start app
+var child = proc.spawn(electron,
+                       [pathToHatchPreviewerModule, ...passedArgs],
+                       { detached: true,
+                         stdio: "inherit" });
+child.on('close', (code) => {
+    process.exit(code);
+});
+
+process.on('SIGINT', () => {
+    // We want the child to go away if we ctrl-c out of the console
+    child.kill();
+    process.exit();
+});

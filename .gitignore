@@ -1,0 +1,7 @@
+# Editor temp/swapfiles
+*~
+.*.swp
+
+# Node junk
+node_modules/
+npm-debug.log

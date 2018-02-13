@@ -66,7 +66,7 @@ function initApp() {
     exports.tagsMap = tagsMap;
     exports.hatchFolder = hatchFolder;
 
-    const icon = path.join(__dirname, '/previewer.png');
+    const icon = path.join(__dirname, '/icons/com.endlessm.HatchPreviewer-256.png');
 
     // Create the browser window.
     mainWindow = new BrowserWindow({

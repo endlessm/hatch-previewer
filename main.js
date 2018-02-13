@@ -7,6 +7,21 @@ const BrowserWindow = electron.BrowserWindow;
 const path = require('path');
 const url = require('url');
 const fs = require('fs');
+const winston = require('winston')
+
+let level = 'warn'
+if (process.env.DEBUG && process.env.DEBUG.includes('hatch-previewer'))
+  level = 'debug'
+
+winston.configure({
+    transports: [new winston.transports.Console({
+        level,
+        colorize: true,
+        handleExceptions: true,
+        humanReadableUnhandledException: true
+    })]
+})
+exports.winston = winston
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -27,32 +42,26 @@ function loadMetadata(path, id) {
 
 function initApp() {
   if (process.argv.length < 3) {
-    console.log("usage: " + process.argv[0] + " " + process.argv[1] + " <hatch directory>")
+    winston.error(`usage: ${process.argv[0]} ${process.argv[1]} <hatch directory>`)
     process.exit(1)
   }
 
   hatchFolder = process.argv[2]
-  console.log("Using hatch folder: " + hatchFolder);
+  winston.debug(`Using hatch folder: ${hatchFolder}`)
 
   assetMap = new Map()
   tagsMap = new Map()
 
-  let hatchLanguage, hatchName;
-  try {
-      const manifest = loadManifest(hatchFolder);
-      manifest.assets.forEach(function(asset) {
-          const id = asset.asset_id;
-          assetMap.set(id, loadMetadata(hatchFolder, id))
-          assetMap.get(id).tags.forEach(tag =>
-              tagsMap.set(tag, (tagsMap.get(tag) || 0) + 1));
-      });
+  const manifest = loadManifest(hatchFolder)
+  manifest.assets.forEach(function(asset) {
+      const id = asset.asset_id
+      assetMap.set(id, loadMetadata(hatchFolder, id))
+      assetMap.get(id).tags.forEach(tag =>
+          tagsMap.set(tag, (tagsMap.get(tag) || 0) + 1))
+  })
 
-      hatchName = manifest.name || "Unknown";
-      hatchLanguage = manifest.language || "Unknown";
-  } catch(e) {
-    console.log(e);
-    process.exit(1)
-  }
+  const hatchName = manifest.name || "Unknown"
+  const hatchLanguage = manifest.language || "Unknown"
 
   // Sort assets map for easy finding of things
   assetMap = new Map([...assetMap.entries()].sort());

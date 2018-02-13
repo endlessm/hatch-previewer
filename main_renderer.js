@@ -4,13 +4,14 @@
 
 const main = require('electron').remote.require('./main');
 const $ = require('jquery');
+const winston = main.winston
 
 const assetMap = main.assetMap;
 const tagsMap = main.tagsMap;
 const hatchFolder = main.hatchFolder;
 
 preview = function(ID) {
-  console.log('preview("' + ID + '")')
+  winston.debug('preview("' + ID + '")')
   setPreviewAssetID(ID);
   setMetadataAssetID(ID);
 }
@@ -80,7 +81,7 @@ $(document).ready(function(){
       })
 
     } else {
-      console.log("unknown objectType: " + asset)
+      winston.warn(`unknown objectType: ${asset}`)
     }
   })
 

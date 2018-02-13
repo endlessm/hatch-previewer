@@ -5,6 +5,11 @@ const electron = require('electron');
 const fs = require('fs');
 const path = require('path');
 const proc = require('child_process');
+const winston = require('winston');
+
+winston.level = 'warn';
+if (process.env.DEBUG && process.env.DEBUG.includes('hatch-previewer'))
+    winston.level = 'debug';
 
 
 const allArgs = process.argv;
@@ -22,9 +27,8 @@ try {
     // Ignore - we're not in a dependent module
 }
 
-console.log(passedArgs);
-
-console.log(`Using path: ${pathToHatchPreviewerModule}`);
+winston.debug(passedArgs);
+winston.info(`Using path: ${pathToHatchPreviewerModule}`);
 
 // Start app
 var child = proc.spawn(electron,

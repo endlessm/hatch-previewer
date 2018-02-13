@@ -1,5 +1,6 @@
 main = require('electron').remote.require('./main')
 $ = require('jquery')
+const winston = main.winston
 
 assetMap = main.assetMap
 hatchFolder = main.hatchFolder
@@ -48,7 +49,7 @@ setMetadataAssetID = function(ID) {
 
   if (ID != null) {
     var asset = assetMap.get(ID)
-    console.log(asset)
+    winston.debug('asset', {asset})
     $('#metadata').append(
       $('<table/>')
         .attr('class', 'table table-striped table-hover table-sm smaller')

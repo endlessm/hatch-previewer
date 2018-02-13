@@ -19,7 +19,8 @@
     "js-beautify": "^1.6.14",
     "node-syntaxhighlighter": "^0.8.1",
     "popper.js": "^1.11.1",
-    "tether": "^1.4.0"
+    "tether": "^1.4.0",
+    "winston": "^2.4.0"
   },
   "bin": {
     "hatch-previewer": "bin/hatch-previewer"

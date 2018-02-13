@@ -1,76 +1,66 @@
-main = require('electron').remote.require('./main')
-$ = require('jquery')
-const winston = main.winston
-
-assetMap = main.assetMap
-hatchFolder = main.hatchFolder
+const main = require('electron').remote.require('./main');
+const $ = require('jquery');
+const {assetMap, winston} = main;
 
 const extraPropsByModelType = {
-  'ArticleObject': ['authors', 'published', 'sourceName'],
-  'ImageObject': ['caption', 'height', 'width'],
-  'VideoObject': ['caption', 'duration', 'height', 'transcript', 'width'],
-  'DictionaryWordObject': ['word', 'definition', 'partOfSpeech']
+    ArticleObject: ['authors', 'published', 'sourceName'],
+    ImageObject: ['caption', 'height', 'width'],
+    VideoObject: ['caption', 'duration', 'height', 'transcript', 'width'],
+    DictionaryWordObject: ['word', 'definition', 'partOfSpeech'],
+};
+
+const visibleProps = [
+    'assetID',
+    'objectType',
+    'contentType',
+
+    'canonicalURI',
+    'matchingLinks',
+
+    'title',
+    'synopsis',
+    'thumbnail',
+    'license',
+    'tags',
+    'lastModifiedDate',
+    'revisionTag',
+];
+
+function _appendProp(asset, prop) {
+    if (!asset.hasOwnProperty(prop))
+        return;
+    $('#metadata_table')
+        .append($('<thead/>')
+            .append($('<tr/>')
+                .append($('<td/>')
+                    .text(prop))
+                .append($('<td/>')
+                    .text(asset[prop]))));
 }
 
-const visibleProps = [ 'assetID',
-                       'objectType',
-                       'contentType',
+exports.setMetadataAssetID = function (ID) {
+    $('#metadata').html('');
 
-                       'canonicalURI',
-                       'matchingLinks',
+    if (ID === null) {
+        $('#metadata').html('<center><h6>No asset selected</h6></center>');
+    } else {
+        const asset = assetMap.get(ID);
+        winston.debug('asset', {asset});
+        $('#metadata')
+            .append($('<table/>')
+                .attr('class', 'table table-striped table-hover table-sm smaller')
+                .attr('id', 'metadata_table')
+                .append($('<thead/>')
+                    .append($('<tr/>')
+                        .append($('<th/>')
+                            .text('Title'))
+                        .append($('<th/>')
+                            .text(asset.title || 'Unknown')))));
 
-                       'title',
-                       'synopsis',
-                       'thumbnail',
-                       'license',
-                       'tags',
-                       'lastModifiedDate',
-                       'revisionTag' ]
+        visibleProps.forEach(prop => _appendProp(asset, prop));
+        extraPropsByModelType[asset.objectType].forEach(prop =>
+            _appendProp($, asset, prop));
+    }
+};
 
-$(document).ready(function(){
-})
-
-function _appendProp($, asset, prop) {
-  if (!asset.hasOwnProperty(prop))
-    return
-  $('#metadata_table').append(
-      $('<thead/>').append(
-        $('<tr/>').append(
-          $('<td/>').text(prop)
-        ).append(
-          $('<td/>').text(asset[prop])
-        )
-      )
-   )
-}
-
-setMetadataAssetID = function(ID) {
-  $('#metadata').html("")
-
-  if (ID != null) {
-    var asset = assetMap.get(ID)
-    winston.debug('asset', {asset})
-    $('#metadata').append(
-      $('<table/>')
-        .attr('class', 'table table-striped table-hover table-sm smaller')
-        .attr('id', 'metadata_table')
-        .append(
-          $('<thead/>').append(
-            $('<tr/>').append(
-              $('<th/>').text('Title')
-            ).append(
-              $('<th/>').text(asset.title || "Unknown")
-            )
-          )
-      )
-    )
-
-    visibleProps.forEach(prop => _appendProp($, asset, prop))
-    extraPropsByModelType[asset['objectType']].forEach(prop =>
-      _appendProp($, asset, prop))
-  } else {
-    $('#metadata').html("<center><h6>No asset selected</h6></center>")
-  }
-}
-
-setMetadataAssetID(null)
+exports.setMetadataAssetID(null);

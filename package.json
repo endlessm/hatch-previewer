@@ -9,7 +9,8 @@
     "url": "https://github.com/endlessm/hatch-previewer"
   },
   "scripts": {
-    "start": "bin/hatch-previewer"
+    "start": "bin/hatch-previewer",
+    "test": "eslint *.js bin/hatch-previewer main.html"
   },
   "main": "main.js",
   "dependencies": {
@@ -24,5 +25,10 @@
   },
   "bin": {
     "hatch-previewer": "bin/hatch-previewer"
+  },
+  "devDependencies": {
+    "eslint": "^4.17.0",
+    "eslint-config-node": "^2.0.0",
+    "eslint-plugin-html": "^4.0.2"
   }
 }

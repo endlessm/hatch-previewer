@@ -2,94 +2,84 @@
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 
-const main = require('electron').remote.require('./main');
 const $ = require('jquery');
-const winston = main.winston
 
-const assetMap = main.assetMap;
-const tagsMap = main.tagsMap;
-const hatchFolder = main.hatchFolder;
+const {assetMap, hatchFolder, tagsMap, winston} =
+    require('electron').remote.require('./main');
+const {setMetadataAssetID} = require('./metadata_renderer');
+const {setPreviewAssetID} = require('./preview_renderer');
 
-preview = function(ID) {
-  winston.debug('preview("' + ID + '")')
-  setPreviewAssetID(ID);
-  setMetadataAssetID(ID);
+window.preview = function (ID) {
+    winston.debug(`preview("${ID}")`);
+    setPreviewAssetID(ID);
+    setMetadataAssetID(ID);
+};
+
+function getShortenedID(ID) {
+    if (ID.length <= 18)
+        return;
+
+    // Front 6
+    const assetPrefix = ID.substring(0, 8);
+    const assetSuffix = ID.slice(-8);
+
+    return `${assetPrefix}..${assetSuffix}`;
 }
 
-getShortenedID = function(ID) {
-  if (ID.length <= 18) {
-    return;
-  }
+$(document).ready(() => {
+    assetMap.forEach(asset => {
+        if (asset.objectType === 'ImageObject') {
+            const thumbnailImg = $('<img />', {
+                src: `${hatchFolder}/${asset.assetID}.data`,
+                class: 'thumbnail',
+            });
 
-  // Front 6
-  let assetPrefix = ID.substring(0, 8);
-  let assetSuffix = ID.slice(-8);
+            $('#imageList').append($('<tr/>')
+                .attr('onclick', `preview("${asset.assetID}")`)
+                .append($('<td/>')
+                    .attr('class', 'text-center')
+                    .append(thumbnailImg)
+                    .append('<br />')
+                    .append($('<a/>')
+                        .attr('id', asset.assetID)
+                        .text(getShortenedID(asset.assetID)))));
+        } else if (['ArticleObject', 'DictionaryWordObject'].includes(asset.objectType)) {
+            let thumbnail = '';
+            if (asset.thumbnail) {
+                const thumbnailImg = $('<img />', {
+                    src: `${hatchFolder}/${asset.thumbnail}.data`,
+                    class: 'thumbnail',
+                });
+                thumbnail = $('<div />')
+                    .append(thumbnailImg)
+                    .append($('<br />'));
+            }
 
-  return assetPrefix + '..' + assetSuffix;
-}
+            $('#documentList')
+                .append($('<tr/>')
+                    .attr('onclick', `preview("${asset.assetID}")`)
+                    .append($('<td/>')
+                        .attr('class', 'text-center')
+                        .append(thumbnail)
+                        .append($('<a/>')
+                            .attr('id', asset.assetID)
+                            .text(asset.title))));
 
-$(document).ready(function(){
-  assetMap.forEach(function(asset) {
-    if (asset.objectType == "ImageObject") {
-      thumbnail_img = $('<img />', { src: hatchFolder + "/" + asset.assetID + ".data",
-                                     class: 'thumbnail' });
-
-      $('#imageList').append(
-        $('<tr/>')
-          .attr('onclick', 'preview("' + asset.assetID + '")')
-          .append(
-            $('<td/>')
-              .attr('class', 'text-center')
-              .append(thumbnail_img)
-              .append('<br />')
-              .append(
-                $('<a/>')
-                  .attr('id', asset.assetID)
-                  .text(getShortenedID(asset.assetID))
-              )
-        )
-      )
-    } else if (asset.objectType == "ArticleObject" || asset.objectType == "DictionaryWordObject") {
-      let thumbnail = '';
-      if (asset.thumbnail) {
-        const thumbnail_img = $('<img />', { src: hatchFolder + "/" + asset.thumbnail + ".data",
-                                           class: 'thumbnail' });
-        thumbnail = $('<div />')
-          .append(thumbnail_img)
-          .append($('<br />'));
-      }
-
-      $('#documentList').append(
-        $('<tr/>')
-          .attr('onclick', 'preview("' + asset.assetID + '")')
-          .append(
-            $('<td/>')
-              .attr('class', 'text-center')
-              .append(thumbnail)
-              .append(
-                $('<a/>')
-                  .attr('id', asset.assetID)
-                  .text(asset.title)
-              )
-        )
-      )
-
-      // give an 'active' class to clicked items in the documentList
-      $('tr').on('click', function(){
-        $(this).addClass('table-active');
-        $(this).siblings('.table-active').toggleClass('table-active');
-      })
-
-    } else {
-      winston.warn(`unknown objectType: ${asset}`)
-    }
-  })
-
-    tagsMap.forEach(function(tagCount, tag) {
-        $('#tagList').append(
-          $('<span/>', {class: 'badge badge-primary'})
-            .text(`${tag} `)
-            .append($('<span/>', {class: 'badge badge-light'})
-              .text(`${tagCount}`)));
+            // give an 'active' class to clicked items in the documentList
+            $('tr').on('click', /* @this jquery */ function () {
+                $(this).addClass('table-active');
+                $(this).siblings('.table-active').toggleClass('table-active');
+            });
+        } else {
+            winston.warn(`unknown objectType: ${asset}`);
+        }
     });
-})
+
+    tagsMap.forEach((tagCount, tag) => {
+        $('#tagList')
+            .append($('<span/>', {class: 'badge badge-primary'})
+                .text(`${tag} `)
+                .append($('<span/>', {class: 'badge badge-light'})
+                    .text(`${tagCount}`)));
+    });
+});

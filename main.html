@@ -110,9 +110,9 @@
       <div class='container p-0 m-0'>
         <center>
           <!-- All of the Node.js APIs are available in this renderer process. -->
-          Node <script>document.write(process.versions.node)</script>,
-          Chromium <script>document.write(process.versions.chrome)</script>,
-          Electron <script>document.write(process.versions.electron)</script>
+          Node <script>document.write(process.versions.node);</script>,
+          Chromium <script>document.write(process.versions.chrome);</script>,
+          Electron <script>document.write(process.versions.electron);</script>
         </center>
       </div>
     </footer>
@@ -121,18 +121,18 @@
   <script>
     // You can also require other files to run in this process
     try {
-      global.jQuery = require('jquery');
-      global.$ = global.jQuery;
-      global.Tether = require('tether');
-      global.Popper = require('popper.js')
-      require('bootstrap');
+        global.jQuery = require('jquery');
+        global.$ = global.jQuery;
+        global.Tether = require('tether');
+        global.Popper = require('popper.js');
+        require('bootstrap');
 
-      require('./main_renderer.js')
-      require('./preview_renderer.js');
-      require('./metadata_renderer.js');
-    } catch(e) {
-      console.log(e.message);
-      alert(e.message);
+        require('./main_renderer.js');
+        require('./preview_renderer.js');
+        require('./metadata_renderer.js');
+    } catch (e) {
+        console.log(e.message);
+        alert(e.message);
     }
   </script>
 </html>

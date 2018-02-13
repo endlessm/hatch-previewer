@@ -66,7 +66,9 @@ function initApp() {
     exports.tagsMap = tagsMap;
     exports.hatchFolder = hatchFolder;
 
-    const icon = path.join(__dirname, '/icons/com.endlessm.HatchPreviewer-256.png');
+    let icon = '/app/share/icons/hicolor/256x256/apps/com.endlessm.HatchPreviewer.png';
+    if (!fs.existsSync(icon))
+        icon = path.join(__dirname, '/icons/com.endlessm.HatchPreviewer-256.png');
 
     // Create the browser window.
     mainWindow = new BrowserWindow({

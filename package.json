@@ -1,7 +1,7 @@
 {
   "name": "hatch-previewer",
   "description": "View packaged website data ('hatches') created by libingester",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "LGPL-2.1",
   "homepage": "https://github.com/endlessm/hatch-previewer",
   "repository": {

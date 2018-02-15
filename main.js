@@ -1,4 +1,4 @@
-const {app, BrowserWindow} = require('electron');
+const {app, BrowserWindow, dialog} = require('electron');
 
 const path = require('path');
 const url = require('url');
@@ -36,12 +36,27 @@ function loadMetadata(metadataPath, id) {
 }
 
 function initApp() {
-    if (process.argv.length < 3) {
-        winston.error(`usage: ${process.argv[0]} ${process.argv[1]} <hatch directory>`);
+    if (![2, 3].includes(process.argv.length)) {
+        winston.error(`usage: ${process.argv[0]} ${process.argv[1]} [<hatch directory>]`);
         throw new Error('Invalid command-line arguments');
     }
 
-    const hatchFolder = process.argv[2];
+    let hatchFolder;
+    if (process.argv.length === 3) {
+        hatchFolder = process.argv[2];
+    } else {
+        const result = dialog.showOpenDialog({
+            title: 'Choose a hatch folder to open',
+            properties: ['openDirectory'],
+        });
+        if (!result) {
+            winston.info('Cancelled');
+            app.quit();
+            return;
+        }
+        [hatchFolder] = result;
+    }
+
     winston.debug(`Using hatch folder: ${hatchFolder}`);
 
     assetMap = new Map();

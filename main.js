@@ -57,6 +57,10 @@ function initApp() {
         [hatchFolder] = result;
     }
 
+    // We want to use the absolute path to our hatch as relative
+    // ones are buggy depending on invocation context
+    hatchFolder = path.resolve(hatchFolder);
+
     winston.debug(`Using hatch folder: ${hatchFolder}`);
 
     assetMap = new Map();

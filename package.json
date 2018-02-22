@@ -1,11 +1,18 @@
 {
-  "name": "preview-hatch",
-  "version": "0.0.3",
+  "name": "hatch-previewer",
+  "description": "View packaged website data ('hatches') created by libingester",
+  "version": "0.0.4",
+  "license": "LGPL-2.1",
+  "homepage": "https://github.com/endlessm/hatch-previewer",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/endlessm/hatch-previewer"
+  },
   "scripts": {
-    "start": "electron ."
+    "start": "bin/hatch-previewer",
+    "test": "eslint *.js bin/hatch-previewer main.html"
   },
   "main": "main.js",
-  "//": "XXX: Make sure to add these dependencies to libingester too - https://github.com/npm/npm/issues/13734",
   "dependencies": {
     "bootstrap": "^4.0.0-beta",
     "electron": "^1.8.2",
@@ -13,6 +20,15 @@
     "js-beautify": "^1.6.14",
     "node-syntaxhighlighter": "^0.8.1",
     "popper.js": "^1.11.1",
-    "tether": "^1.4.0"
+    "tether": "^1.4.0",
+    "winston": "^2.4.0"
+  },
+  "bin": {
+    "hatch-previewer": "bin/hatch-previewer"
+  },
+  "devDependencies": {
+    "eslint": "^4.17.0",
+    "eslint-config-node": "^2.0.0",
+    "eslint-plugin-html": "^4.0.2"
   }
 }

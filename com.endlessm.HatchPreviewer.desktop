@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Hatch Previewer
+Icon=com.endlessm.HatchPreviewer
+Exec=/app/bin/hatch-previewer %f
+Categories=Development;Viewer;

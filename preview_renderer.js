@@ -4,91 +4,97 @@ const $ = require('jquery');
 const nsh = require('node-syntaxhighlighter');
 const htmlFormatter = require('js-beautify').html;
 
-
-const assetMap = main.assetMap
-const hatchFolder = main.hatchFolder
+const {assetMap, hatchFolder} = main;
 
 let showingSource = false;
 
-$(document).ready(function(){
-  $('#flip_controls').hide();
-  $('#source_code').hide();
-  $('#image_asset').hide();
-})
-
-flipPage = function() {
-  showingSource = !showingSource;
-  if (showingSource) {
-    $('#preview_frame').hide();
-    $('#image_preview').hide();
-    $('#source_code').show();
-  } else {
-    $('#preview_frame').show();
-    $('#image_preview').show();
-    $('#source_code').hide();
-  }
-}
-
-setPreviewAssetID = function(ID) {
-  if (!ID) {
-    $('#preview_frame').html("<center><h2>No asset selected</h2></center>")
-    return;
-  }
-
-  showingSource = false;
-  $('#source_code').hide();
-  $('#preview_frame').show();
-  $('#image_preview').show();
-
-  $('#image_preview').html('');
-  $('#preview_frame').contents().find('html').html('');
-  $('#preview_frame_holder').removeClass('preview-frame-holder');
-
-  var asset = assetMap.get(ID)
-
-  // Enable controls if we're an html document
-  if (asset.document) {
-    $('#flip_controls').show();
-    const prettyHtml = htmlFormatter(asset.document);
-    $('#source_code_content').html(nsh.highlight(prettyHtml, nsh.getLanguage('xml')));
-  } else {
+$(document).ready(() => {
     $('#flip_controls').hide();
-  }
+    $('#source_code').hide();
+    $('#image_asset').hide();
+});
 
-  if (asset.document) {
-    $('#preview_frame_holder').addClass('preview-frame-holder');
-    $('#preview_frame').contents().find('html').find('body').html(asset.document || "")
-    $('#preview_frame').contents().find('body').scrollTop(0);
-    $('#preview_frame').contents().find('html').find('img').each(function() {
-      var imgID = $(this).attr("data-soma-job-id")
-      $(this).attr("src", hatchFolder + "/" + imgID + ".data")
-    })
+window.flipPage = function () {
+    showingSource = !showingSource;
+    if (showingSource) {
+        $('#preview_frame').hide();
+        $('#image_preview').hide();
+        $('#source_code').show();
+    } else {
+        $('#preview_frame').show();
+        $('#image_preview').show();
+        $('#source_code').hide();
+    }
+};
 
-    // Append placeholders for videos
-    $('#preview_frame').contents().find('html').find("a[data-soma-widget='VideoLink']").each(function() {
-      let video_placeholder = $('<div>VIDEO PLACEHOLDER</div>');
-      video_placeholder.css("align-content", "center");
-      video_placeholder.css("background-color", "black");
-      video_placeholder.css("color", "#007bff");
-      video_placeholder.css("display", "inline-grid");
-      video_placeholder.css("font-size", "xx-large");
-      video_placeholder.css("font-weight", "bold");
-      video_placeholder.css("height", "20rem");
-      video_placeholder.css("justify-content", "center");
-      video_placeholder.css("width", "25rem");
+exports.setPreviewAssetID = function (ID) {
+    const previewFrame = $('#preview_frame');
+    if (!ID) {
+        previewFrame.html('<center><h2>No asset selected</h2></center>');
+        return;
+    }
 
-      $(this).append(video_placeholder);
-    });
-  } else if (asset.objectType == "ImageObject") {
-    image_asset = $('<img />', { id: 'image_asset',
-                                 src: asset.path,
-                                 class: 'centered mx-auto' });
-    $('#image_preview').append(
-        image_asset
-    )
-  } else {
-    $('#image_preview').html("<center><h2>Unsupported asset type (" + asset.objectType + ")!</h2></center>")
-  }
-}
+    showingSource = false;
+    const imagePreview = $('#image_preview');
+    const frameContents = previewFrame.contents();
+    const frameHTML = frameContents.find('html');
+    const previewFrameHolder = $('#preview_frame_holder');
 
-setPreviewAssetID(null)
+    $('#source_code').hide();
+    previewFrame.show();
+    imagePreview.show();
+
+    imagePreview.html('');
+    frameHTML.html('');
+    previewFrameHolder.removeClass('preview-frame-holder');
+
+    const asset = assetMap.get(ID);
+
+    // Enable controls if we're an html document
+    if (asset.document) {
+        $('#flip_controls').show();
+        const prettyHtml = htmlFormatter(asset.document);
+        $('#source_code_content').html(nsh.highlight(prettyHtml, nsh.getLanguage('xml')));
+    } else {
+        $('#flip_controls').hide();
+    }
+
+    if (asset.document) {
+        previewFrameHolder.addClass('preview-frame-holder');
+        const frameBody = frameContents.find('body');
+        frameBody.html(asset.document || '');
+        frameBody.scrollTop(0);
+        frameHTML.find('img').each(/* @this jquery */ function () {
+            const imgID = $(this).attr('data-soma-job-id');
+            $(this).attr('src', `${hatchFolder}/${imgID}.data`);
+        });
+
+        // Append placeholders for videos
+        frameHTML.find("a[data-soma-widget='VideoLink']").each(/* @this jquery */ function () {
+            const videoPlaceholder = $('<div>VIDEO PLACEHOLDER</div>');
+            videoPlaceholder.css('align-content', 'center');
+            videoPlaceholder.css('background-color', 'black');
+            videoPlaceholder.css('color', '#007bff');
+            videoPlaceholder.css('display', 'inline-grid');
+            videoPlaceholder.css('font-size', 'xx-large');
+            videoPlaceholder.css('font-weight', 'bold');
+            videoPlaceholder.css('height', '20rem');
+            videoPlaceholder.css('justify-content', 'center');
+            videoPlaceholder.css('width', '25rem');
+
+            $(this).append(videoPlaceholder);
+        });
+    } else if (asset.objectType === 'ImageObject') {
+        const imageAsset = $('<img />', {
+            id: 'image_asset',
+            src: asset.path,
+            class: 'centered mx-auto',
+        });
+        imagePreview.append(imageAsset);
+    } else {
+        imagePreview.html(`<center><h2>Unsupported asset type
+            (${asset.objectType})!</h2></center>`);
+    }
+};
+
+exports.setPreviewAssetID(null);

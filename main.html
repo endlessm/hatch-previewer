@@ -3,12 +3,18 @@
   <head>
     <meta charset="UTF-8">
 
-    <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- If we are running as a library, we need a different path resolution -->
+    <!-- We need to try loading the css from whatever hierarchy we are in -->
+    <!-- This can be local folder, sibling folder, or parent folder -->
+    <!-- TODO: Try to make this a little less cludgy -->
+    <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../../bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <link href="../node_modules/node-syntaxhighlighter/lib/styles/shCoreDefault.css" rel="stylesheet">
-    <!-- If we are running as a library, we need a different path resolution -->
+    <!-- We need to try loading the css from whatever hierarchy we are in -->
+    <!-- This can be local folder, sibling folder, or parent folder -->
+    <!-- TODO: Try to make this a little less cludgy -->
+    <link href="node_modules/node-syntaxhighlighter/lib/styles/shCoreDefault.css" rel="stylesheet">
+    <link href="../node-syntaxhighlighter/lib/styles/shCoreDefault.css" rel="stylesheet">
     <link href="../../node-syntaxhighlighter/lib/styles/shCoreDefault.css" rel="stylesheet">
 
     <link href="./css/styles.css" rel="stylesheet" >
@@ -17,7 +23,7 @@
   <body>
     <div class='container-fluid main-page'>
       <div class='row panes-holder'>
-        <!-- Left panel --!>
+        <!-- Left panel -->
         <div class='col-2 pt-3 pb-3 pane asset-pane'>
           <div id="accordion" role="tablist" aria-multiselectable="true">
             <div class="card">
@@ -104,9 +110,9 @@
       <div class='container p-0 m-0'>
         <center>
           <!-- All of the Node.js APIs are available in this renderer process. -->
-          Node <script>document.write(process.versions.node)</script>,
-          Chromium <script>document.write(process.versions.chrome)</script>,
-          Electron <script>document.write(process.versions.electron)</script>
+          Node <script>document.write(process.versions.node);</script>,
+          Chromium <script>document.write(process.versions.chrome);</script>,
+          Electron <script>document.write(process.versions.electron);</script>
         </center>
       </div>
     </footer>
@@ -115,18 +121,18 @@
   <script>
     // You can also require other files to run in this process
     try {
-      global.jQuery = require('jquery');
-      global.$ = global.jQuery;
-      global.Tether = require('tether');
-      global.Popper = require('popper.js')
-      require('bootstrap');
+        global.jQuery = require('jquery');
+        global.$ = global.jQuery;
+        global.Tether = require('tether');
+        global.Popper = require('popper.js');
+        require('bootstrap');
 
-      require('./main_renderer.js')
-      require('./preview_renderer.js');
-      require('./metadata_renderer.js');
-    } catch(e) {
-      console.log(e.message);
-      alert(e.message);
+        require('./main_renderer.js');
+        require('./preview_renderer.js');
+        require('./metadata_renderer.js');
+    } catch (e) {
+        console.log(e.message);
+        alert(e.message);
     }
   </script>
 </html>

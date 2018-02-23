@@ -29,9 +29,6 @@
       <description><p>Initial release on Flathub</p></description>
     </release>
   </releases>
-  <icon type="remote" height="256" width="256">https://raw.githubusercontent.com/endlessm/hatch-previewer/master/icons/256x256/hatch-previewer.png</icon>
-  <icon type="remote" height="128" width="128">https://raw.githubusercontent.com/endlessm/hatch-previewer/master/icons/128x128/hatch-previewer.png</icon>
-  <icon type="remote" height="64" width="64">https://raw.githubusercontent.com/endlessm/hatch-previewer/master/icons/64x64/hatch-previewer.png</icon>
   <content_rating type="oars-1.1">
     <content_attribute id="violence-cartoon">none</content_attribute>
     <content_attribute id="violence-fantasy">none</content_attribute>

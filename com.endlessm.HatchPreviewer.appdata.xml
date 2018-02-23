@@ -8,6 +8,7 @@
   <summary>Developer tool for packaged websites</summary>
   <metadata_license>CC0-1.0</metadata_license>
   <url type="homepage">https://github.com/endlessm/hatch-previewer</url>
+  <launchable type="desktop-id">com.endlessm.HatchPreviewer.desktop</launchable>
   <description>
     <p>This is an app for viewing packaged website data ('hatches') created by the libingester library.</p>
   </description>

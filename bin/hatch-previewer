@@ -16,11 +16,11 @@ const allArgs = process.argv;
 const passedArgs = allArgs.slice(2);
 
 // Try to load us as a module if we're imported, otherwise if /app/main exists,
-// assume we're running in a flatpak package. Lastly, run from the current
+// assume we're running in a flatpak package. Lastly, run from the parent
 // directory.
 let pathToHatchPreviewerModule = '/app/main';
 if (!fs.existsSync(pathToHatchPreviewerModule))
-    pathToHatchPreviewerModule = path.resolve('.');
+    pathToHatchPreviewerModule = path.resolve(__dirname, '..');
 try {
     pathToHatchPreviewerModule = path.dirname(require.resolve('hatch-previewer'));
 } catch (e) {

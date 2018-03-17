@@ -27,6 +27,8 @@ function getShortenedID(ID) {
 }
 
 $(document).ready(() => {
+    let firstItemSelected = false;
+
     assetMap.forEach(asset => {
         if (asset.objectType === 'ImageObject') {
             const thumbnailImg = $('<img />', {
@@ -58,6 +60,7 @@ $(document).ready(() => {
             $('#documentList')
                 .append($('<tr/>')
                     .attr('onclick', `preview("${asset.assetID}")`)
+                    .attr('class', firstItemSelected ? '' : 'table-active')
                     .append($('<td/>')
                         .attr('class', 'text-center')
                         .append(thumbnail)
@@ -70,6 +73,12 @@ $(document).ready(() => {
                 $(this).addClass('table-active');
                 $(this).siblings('.table-active').toggleClass('table-active');
             });
+
+            // Select the first document if there is one
+            if (!firstItemSelected) {
+                firstItemSelected = true;
+                preview(asset.assetID);
+            }
         } else {
             winston.warn(`unknown objectType: ${asset}`);
         }

@@ -1,7 +1,7 @@
 {
   "name": "hatch-previewer",
   "description": "View packaged website data ('hatches') created by libingester",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "license": "LGPL-2.1",
   "homepage": "https://github.com/endlessm/hatch-previewer",
   "repository": {
@@ -14,20 +14,20 @@
   },
   "main": "main.js",
   "dependencies": {
-    "bootstrap": "^4.0.0-beta",
-    "electron": "^1.8.2",
+    "bootstrap": "^4.1.0",
+    "electron": "^1.8.4",
     "jquery": "^3.2.1",
     "js-beautify": "^1.6.14",
     "node-syntaxhighlighter": "^0.8.1",
-    "popper.js": "^1.11.1",
-    "tether": "^1.4.0",
-    "winston": "^2.4.0"
+    "popper.js": "^1.14.3",
+    "tether": "^1.4.4",
+    "winston": "^2.4.1"
   },
   "bin": {
     "hatch-previewer": "bin/hatch-previewer"
   },
   "devDependencies": {
-    "eslint": "^4.17.0",
+    "eslint": "^4.19.1",
     "eslint-config-node": "^2.0.0",
     "eslint-plugin-html": "^4.0.2"
   },

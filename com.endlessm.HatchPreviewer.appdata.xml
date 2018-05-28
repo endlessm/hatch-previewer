@@ -28,6 +28,14 @@
     <release date="2018-02-13" version="0.0.5">
       <description><p>Initial release on Flathub</p></description>
     </release>
+    <release date="2018-04-20" version="0.0.6">
+      <description>
+        <ul>
+          <li>Start with the first asset selected</li>
+          <li>Update dependencies with security issues</li>
+        </ul>
+      </description>
+    </release>
   </releases>
   <content_rating type="oars-1.1">
     <content_attribute id="violence-cartoon">none</content_attribute>

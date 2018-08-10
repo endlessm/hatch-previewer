@@ -57,10 +57,13 @@ $(document).ready(() => {
                     .append($('<br />'));
             }
 
+            let _class = 'table-active';
+            if (firstItemSelected) _class = '';
+
             $('#documentList')
                 .append($('<tr/>')
                     .attr('onclick', `preview("${asset.assetID}")`)
-                    .attr('class', firstItemSelected ? '' : 'table-active')
+                    .attr('class', _class)
                     .append($('<td/>')
                         .attr('class', 'text-center')
                         .append(thumbnail)
@@ -77,7 +80,7 @@ $(document).ready(() => {
             // Select the first document if there is one
             if (!firstItemSelected) {
                 firstItemSelected = true;
-                preview(asset.assetID);
+                window.preview(asset.assetID);
             }
         } else {
             winston.warn(`unknown objectType: ${asset}`);

@@ -22,7 +22,6 @@ exports.winston = winston;
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
-let assetMap;
 
 function loadManifest(manifestPath) {
     return JSON.parse(fs.readFileSync(`${manifestPath}/hatch_manifest.json`, 'utf8'));
@@ -33,6 +32,33 @@ function loadMetadata(metadataPath, id) {
 
     metadata.path = `${metadataPath}/${metadata.cdnFilename}`;
     return metadata;
+}
+
+function loadHatch(hatchFolder) {
+    let assetMap = new Map();
+    let tagsMap = new Map();
+
+    const manifest = loadManifest(hatchFolder);
+    manifest.assets.forEach(asset => {
+        const id = asset.asset_id;
+        assetMap.set(id, loadMetadata(hatchFolder, id));
+        assetMap.get(id).tags.forEach(tag =>
+            tagsMap.set(tag, (tagsMap.get(tag) || 0) + 1));
+    });
+
+    const hatchName = manifest.name || 'Unknown';
+    const hatchLanguage = manifest.language || 'Unknown';
+
+    // Sort assets map for easy finding of things
+    assetMap = new Map([...assetMap.entries()].sort());
+    tagsMap = new Map([...tagsMap.entries()].sort());
+
+    return {
+        hatchName,
+        hatchLanguage,
+        assetMap,
+        tagsMap,
+    };
 }
 
 function initApp() {
@@ -63,23 +89,7 @@ function initApp() {
 
     winston.debug(`Using hatch folder: ${hatchFolder}`);
 
-    assetMap = new Map();
-    let tagsMap = new Map();
-
-    const manifest = loadManifest(hatchFolder);
-    manifest.assets.forEach(asset => {
-        const id = asset.asset_id;
-        assetMap.set(id, loadMetadata(hatchFolder, id));
-        assetMap.get(id).tags.forEach(tag =>
-            tagsMap.set(tag, (tagsMap.get(tag) || 0) + 1));
-    });
-
-    const hatchName = manifest.name || 'Unknown';
-    const hatchLanguage = manifest.language || 'Unknown';
-
-    // Sort assets map for easy finding of things
-    assetMap = new Map([...assetMap.entries()].sort());
-    tagsMap = new Map([...tagsMap.entries()].sort());
+    const {hatchName, hatchLanguage, assetMap, tagsMap} = loadHatch(hatchFolder);
 
     exports.assetMap = assetMap;
     exports.tagsMap = tagsMap;

@@ -4,6 +4,7 @@ const path = require('path');
 const url = require('url');
 const fs = require('fs');
 const winston = require('winston');
+const chokidar = require('chokidar');
 
 let level = 'warn';
 if (process.env.DEBUG && process.env.DEBUG.includes('hatch-previewer'))
@@ -23,8 +24,17 @@ exports.winston = winston;
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-function loadManifest(manifestPath) {
-    return JSON.parse(fs.readFileSync(`${manifestPath}/hatch_manifest.json`, 'utf8'));
+let _assetMap;
+let _tagsMap;
+let _title;
+
+function getManifestPath(hatchFolder) {
+    return `${hatchFolder}/hatch_manifest.json`;
+}
+
+function loadManifest(hatchFolder) {
+    const manifestPath = getManifestPath(hatchFolder);
+    return JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 }
 
 function loadMetadata(metadataPath, id) {
@@ -35,8 +45,9 @@ function loadMetadata(metadataPath, id) {
 }
 
 function loadHatch(hatchFolder) {
-    let assetMap = new Map();
-    let tagsMap = new Map();
+    winston.info(`Loading hatch ${hatchFolder}`);
+    const assetMap = new Map();
+    const tagsMap = new Map();
 
     const manifest = loadManifest(hatchFolder);
     manifest.assets.forEach(asset => {
@@ -46,20 +57,24 @@ function loadHatch(hatchFolder) {
             tagsMap.set(tag, (tagsMap.get(tag) || 0) + 1));
     });
 
-    const hatchName = manifest.name || 'Unknown';
-    const hatchLanguage = manifest.language || 'Unknown';
-
     // Sort assets map for easy finding of things
-    assetMap = new Map([...assetMap.entries()].sort());
-    tagsMap = new Map([...tagsMap.entries()].sort());
+    _assetMap = new Map([...assetMap.entries()].sort());
+    _tagsMap = new Map([...tagsMap.entries()].sort());
 
-    return {
-        hatchName,
-        hatchLanguage,
-        assetMap,
-        tagsMap,
-    };
+    const hatchName = manifest.name || 'Unknown';
+    const hatchLanguage = manifest.language || 'Unknown language';
+    _title = `Hatch Previewer - ${hatchName} (${hatchLanguage})`;
+
+    if (mainWindow) mainWindow.reload();
 }
+
+exports.getAssetMap = function () {
+    return _assetMap;
+};
+
+exports.getTagsMap = function () {
+    return _tagsMap;
+};
 
 function initApp() {
     if (![2, 3].includes(process.argv.length)) {
@@ -89,10 +104,16 @@ function initApp() {
 
     winston.debug(`Using hatch folder: ${hatchFolder}`);
 
-    const {hatchName, hatchLanguage, assetMap, tagsMap} = loadHatch(hatchFolder);
+    loadHatch(hatchFolder);
 
-    exports.assetMap = assetMap;
-    exports.tagsMap = tagsMap;
+    const manifestPath = getManifestPath(hatchFolder);
+
+    // Watch manifest for changes to reload the hatch
+    chokidar.watch(manifestPath)
+        .on('add', () => loadHatch(hatchFolder))
+        .on('change', () => loadHatch(hatchFolder))
+        .on('unlink', () => winston.debug('manifest removed'));
+
     exports.hatchFolder = hatchFolder;
 
     let icon = '/app/share/icons/hicolor/256x256/apps/com.endlessm.HatchPreviewer.png';
@@ -106,7 +127,7 @@ function initApp() {
         width: 1300,
         height: 700,
         useContentSize: true,
-        title: `Hatch Previewer - ${hatchName} (${hatchLanguage})`,
+        title: _title,
         acceptFirstMouse: true,
         autoHideMenuBar: true,
         thickFrame: true,

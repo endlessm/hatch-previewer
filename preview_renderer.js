@@ -4,7 +4,7 @@ const $ = require('jquery');
 const nsh = require('node-syntaxhighlighter');
 const htmlFormatter = require('js-beautify').html;
 
-const {assetMap, hatchFolder} = main;
+const {getAssetMap, hatchFolder} = main;
 
 let showingSource = false;
 
@@ -48,7 +48,7 @@ exports.setPreviewAssetID = function (ID) {
     frameHTML.html('');
     previewFrameHolder.removeClass('preview-frame-holder');
 
-    const asset = assetMap.get(ID);
+    const asset = getAssetMap().get(ID);
 
     // Enable controls if we're an html document
     if (asset.document) {

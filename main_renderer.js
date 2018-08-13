@@ -4,7 +4,7 @@
 
 const $ = require('jquery');
 
-const {assetMap, hatchFolder, tagsMap, winston} =
+const {getAssetMap, hatchFolder, getTagsMap, winston} =
     require('electron').remote.require('./main');
 const {setMetadataAssetID} = require('./metadata_renderer');
 const {setPreviewAssetID} = require('./preview_renderer');
@@ -29,7 +29,7 @@ function getShortenedID(ID) {
 $(document).ready(() => {
     let firstItemSelected = false;
 
-    assetMap.forEach(asset => {
+    getAssetMap().forEach(asset => {
         if (asset.objectType === 'ImageObject') {
             const thumbnailImg = $('<img />', {
                 src: `${hatchFolder}/${asset.assetID}.data`,
@@ -87,7 +87,7 @@ $(document).ready(() => {
         }
     });
 
-    tagsMap.forEach((tagCount, tag) => {
+    getTagsMap().forEach((tagCount, tag) => {
         $('#tagList')
             .append($('<span/>', {class: 'badge badge-primary'})
                 .text(`${tag} `)

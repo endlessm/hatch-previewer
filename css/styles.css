@@ -43,10 +43,6 @@ div.syntaxhighlighter > table {
 
 .main-page {
   height: 100%;
-  overflow: auto;
-  display: block;
-  margin-bottom: -2em;
-  padding-bottom: 2em;
 }
 
 .panes-holder {
@@ -87,10 +83,6 @@ div.syntaxhighlighter > table {
 .thumbnail {
   max-width: 2.5em;
   max-height: 1.7em;
-}
-
-.footer {
-  width: 100%;
 }
 
 .tagList {

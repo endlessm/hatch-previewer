@@ -73,6 +73,11 @@ div.syntaxhighlighter > table {
   transform-origin: top left;
 }
 
+.asset-pane {
+  padding: 0;
+  overflow-y: scroll;
+}
+
 .asset-list {
   width: 100%;
   overflow: auto;
@@ -84,17 +89,8 @@ div.syntaxhighlighter > table {
   max-height: 1.7em;
 }
 
-.asset-pane {
-  border-right-style: ridge;
-}
-
-.metadata-pane {
-  border-left-style: ridge;
-}
-
 .footer {
   width: 100%;
-  background-color: #f5f5f5;
 }
 
 .tagList {
@@ -112,4 +108,8 @@ div.syntaxhighlighter > table {
   margin-top: 0em;
   vertical-align: text-top;
   margin-left: 0.1em;
+}
+
+.card-header {
+    padding: 0!important;
 }

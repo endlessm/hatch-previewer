@@ -57,13 +57,12 @@ $(document).ready(() => {
                     .append($('<br />'));
             }
 
-            let _class = 'table-active';
-            if (firstItemSelected) _class = '';
-
             $('#documentList')
                 .append($('<tr/>')
                     .attr('onclick', `preview("${asset.assetID}")`)
-                    .attr('class', _class)
+                    .attr('class', firstItemSelected
+                        ? ''
+                        : 'table-active')
                     .append($('<td/>')
                         .attr('class', 'text-center')
                         .append(thumbnail)

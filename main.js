@@ -112,7 +112,7 @@ function initApp() {
     chokidar.watch(manifestPath)
         .on('add', () => loadHatch(hatchFolder))
         .on('change', () => loadHatch(hatchFolder))
-        .on('unlink', () => winston.debug('manifest removed'));
+        .on('unlink', () => winston.debug(`Manifest ${manifestPath} was deleted`));
 
     exports.hatchFolder = hatchFolder;
 

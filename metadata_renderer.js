@@ -29,13 +29,12 @@ const visibleProps = [
 function _appendProp(asset, prop) {
     if (!asset.hasOwnProperty(prop))
         return;
-    $('#metadata_table')
-        .append($('<thead/>')
-            .append($('<tr/>')
-                .append($('<td/>')
-                    .text(prop))
-                .append($('<td/>')
-                    .text(asset[prop]))));
+    $('#metadata_table tbody')
+        .append($('<tr/>')
+            .append($('<td/>')
+                .text(prop))
+            .append($('<td/>')
+                .text(asset[prop])));
 }
 
 exports.setMetadataAssetID = function (ID) {
@@ -56,6 +55,9 @@ exports.setMetadataAssetID = function (ID) {
                             .text('Title'))
                         .append($('<th/>')
                             .text(asset.title || 'Unknown')))));
+
+        $('#metadata_table')
+            .append($('<tbody/>'));
 
         visibleProps.forEach(prop => _appendProp(asset, prop));
         extraPropsByModelType[asset.objectType].forEach(prop =>

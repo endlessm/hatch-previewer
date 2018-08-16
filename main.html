@@ -64,21 +64,22 @@
         <div class='col-7 pt-3 pb-3 pane'>
           <div id='flip_controls'>
             <button type='button'
-                    class='btn btn-primary btn-lg btn-block'
-                    onClick='flipPage();'>Flip
+                    id='flip_button'
+                    class='btn btn-primary btn-lg'
+                    onClick='flipPage();'>View Source
             </button>
           </div>
-          <span class='border-1 mt-4'>
-            <div class='code-block container mt-1 pt-2 bg-faded' id='source_code'>
-              <div id='source_code_content'></div>
-            </div>
 
-            <div class='container center-block mt-1' id='image_preview'></div>
+          <div class='code-block container mt-1 pt-2 bg-faded' id='source_code'>
+            <div id='source_code_content'></div>
+          </div>
 
-            <div class='preview-frame-holder container center-block mt-1' id='preview_frame_holder' >
-              <iframe class='preview-frame' frameborder='0' id='preview_frame'></iframe>
-            </div>
-          </span>
+          <div class='container center-block mt-1' id='image_preview'></div>
+
+          <div class='preview-frame-holder container center-block mt-1' id='preview_frame_holder' >
+            <iframe class='preview-frame' frameborder='0' id='preview_frame'></iframe>
+          </div>
+
         </div>
 
         <!-- Metadata panel -->

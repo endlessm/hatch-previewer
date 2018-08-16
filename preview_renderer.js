@@ -17,12 +17,14 @@ $(document).ready(() => {
 window.flipPage = function () {
     showingSource = !showingSource;
     if (showingSource) {
-        $('#preview_frame').hide();
+        $('#preview_frame_holder').hide();
         $('#image_preview').hide();
+        $('#flip_button').text('View Article');
         $('#source_code').show();
     } else {
-        $('#preview_frame').show();
+        $('#preview_frame_holder').show();
         $('#image_preview').show();
+        $('#flip_button').text('View Source');
         $('#source_code').hide();
     }
 };
@@ -40,8 +42,9 @@ exports.setPreviewAssetID = function (ID) {
     const frameHTML = frameContents.find('html');
     const previewFrameHolder = $('#preview_frame_holder');
 
+    $('#flip_button').text('View Source');
     $('#source_code').hide();
-    previewFrame.show();
+    previewFrameHolder.show();
     imagePreview.show();
 
     imagePreview.html('');

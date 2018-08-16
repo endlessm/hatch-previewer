@@ -1,6 +1,6 @@
 const main = require('electron').remote.require('./main');
 const $ = require('jquery');
-const {assetMap, winston} = main;
+const {getAssetMap, winston} = main;
 
 const extraPropsByModelType = {
     ArticleObject: ['authors', 'published', 'sourceName'],
@@ -44,7 +44,7 @@ exports.setMetadataAssetID = function (ID) {
     if (ID === null) {
         $('#metadata').html('<center><h6>No asset selected</h6></center>');
     } else {
-        const asset = assetMap.get(ID);
+        const asset = getAssetMap().get(ID);
         winston.debug('asset', {asset});
         $('#metadata')
             .append($('<table/>')

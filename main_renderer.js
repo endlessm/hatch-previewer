@@ -4,7 +4,7 @@
 
 const $ = require('jquery');
 
-const {assetMap, hatchFolder, tagsMap, winston} =
+const {getAssetMap, hatchFolder, getTagsMap, winston} =
     require('electron').remote.require('./main');
 const {setMetadataAssetID} = require('./metadata_renderer');
 const {setPreviewAssetID} = require('./preview_renderer');
@@ -29,7 +29,7 @@ function getShortenedID(ID) {
 $(document).ready(() => {
     let firstItemSelected = false;
 
-    assetMap.forEach(asset => {
+    getAssetMap().forEach(asset => {
         if (asset.objectType === 'ImageObject') {
             const thumbnailImg = $('<img />', {
                 src: `${hatchFolder}/${asset.assetID}.data`,
@@ -60,7 +60,9 @@ $(document).ready(() => {
             $('#documentList')
                 .append($('<tr/>')
                     .attr('onclick', `preview("${asset.assetID}")`)
-                    .attr('class', firstItemSelected ? '' : 'table-active')
+                    .attr('class', firstItemSelected
+                        ? ''
+                        : 'table-active')
                     .append($('<td/>')
                         .attr('class', 'text-center')
                         .append(thumbnail)
@@ -77,14 +79,14 @@ $(document).ready(() => {
             // Select the first document if there is one
             if (!firstItemSelected) {
                 firstItemSelected = true;
-                preview(asset.assetID);
+                window.preview(asset.assetID);
             }
         } else {
             winston.warn(`unknown objectType: ${asset}`);
         }
     });
 
-    tagsMap.forEach((tagCount, tag) => {
+    getTagsMap().forEach((tagCount, tag) => {
         $('#tagList')
             .append($('<span/>', {class: 'badge badge-primary'})
                 .text(`${tag} `)

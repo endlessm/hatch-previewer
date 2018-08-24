@@ -27,6 +27,7 @@ let mainWindow;
 let _assetMap;
 let _tagsMap;
 let _title;
+let _hatchVersion;
 
 function getManifestPath(hatchFolder) {
     return `${hatchFolder}/hatch_manifest.json`;
@@ -44,12 +45,10 @@ function loadMetadata(metadataPath, id) {
     return metadata;
 }
 
-function loadHatch(hatchFolder) {
-    winston.info(`Loading hatch ${hatchFolder}`);
+function loadHatchV2(hatchFolder, manifest) {
     const assetMap = new Map();
     const tagsMap = new Map();
 
-    const manifest = loadManifest(hatchFolder);
     manifest.assets.forEach(asset => {
         const id = asset.asset_id;
         assetMap.set(id, loadMetadata(hatchFolder, id));
@@ -60,6 +59,40 @@ function loadHatch(hatchFolder) {
     // Sort assets map for easy finding of things
     _assetMap = new Map([...assetMap.entries()].sort());
     _tagsMap = new Map([...tagsMap.entries()].sort());
+}
+
+function loadHatchV3(hatchFolder, manifest) {
+    const assetMap = new Map();
+    const tagsMap = new Map();
+
+    for (const id of manifest.assets) {
+        assetMap.set(id, loadMetadata(hatchFolder, id));
+        assetMap.get(id).tags.forEach(tag =>
+            tagsMap.set(tag, (tagsMap.get(tag) || 0) + 1));
+    }
+
+    // Sort assets map for easy finding of things
+    _assetMap = new Map([...assetMap.entries()].sort());
+    _tagsMap = new Map([...tagsMap.entries()].sort());
+}
+
+function loadHatch(hatchFolder) {
+    winston.info(`Loading hatch ${hatchFolder}`);
+
+    const manifest = loadManifest(hatchFolder);
+    _hatchVersion = manifest.hatch_version;
+    winston.debug(`hatch version: ${_hatchVersion}`);
+
+    switch (_hatchVersion) {
+    case 2:
+        loadHatchV2(hatchFolder, manifest);
+        break;
+    case 3:
+        loadHatchV3(hatchFolder, manifest);
+        break;
+    default:
+        throw new Error(`Invalid hatch version: ${_hatchVersion}`);
+    }
 
     const hatchName = manifest.name || 'Unknown';
     const hatchLanguage = manifest.language || 'Unknown language';
@@ -74,6 +107,10 @@ exports.getAssetMap = function () {
 
 exports.getTagsMap = function () {
     return _tagsMap;
+};
+
+exports.getHatchVersion = function () {
+    return _hatchVersion;
 };
 
 function initApp() {
@@ -109,7 +146,7 @@ function initApp() {
     const manifestPath = getManifestPath(hatchFolder);
 
     // Watch manifest for changes to reload the hatch
-    chokidar.watch(manifestPath)
+    chokidar.watch(manifestPath, {ignoreInitial: true})
         .on('add', () => loadHatch(hatchFolder))
         .on('change', () => loadHatch(hatchFolder))
         .on('unlink', () => winston.debug(`Manifest ${manifestPath} was deleted`));

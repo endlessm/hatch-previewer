@@ -4,7 +4,7 @@ const $ = require('jquery');
 const nsh = require('node-syntaxhighlighter');
 const htmlFormatter = require('js-beautify').html;
 
-const {getAssetMap, hatchFolder} = main;
+const {getAssetMap, getHatchVersion, hatchFolder} = main;
 
 let showingSource = false;
 
@@ -53,19 +53,32 @@ exports.setPreviewAssetID = function (ID) {
 
     const asset = getAssetMap().get(ID);
 
+    // Hatch v3 has body, while Hatch v2 has document
+    let document;
+    switch (getHatchVersion()) {
+    case 2:
+        document = asset.document;
+        break;
+    case 3:
+        document = asset.body;
+        break;
+    default:
+        break;
+    }
+
     // Enable controls if we're an html document
-    if (asset.document) {
+    if (document) {
         $('#flip_controls').show();
-        const prettyHtml = htmlFormatter(asset.document);
+        const prettyHtml = htmlFormatter(document);
         $('#source_code_content').html(nsh.highlight(prettyHtml, nsh.getLanguage('xml')));
     } else {
         $('#flip_controls').hide();
     }
 
-    if (asset.document) {
+    if (document) {
         previewFrameHolder.addClass('preview-frame-holder');
         const frameBody = frameContents.find('body');
-        frameBody.html(asset.document || '');
+        frameBody.html(document || '');
         frameBody.scrollTop(0);
         frameHTML.find('img').each(/* @this jquery */ function () {
             const imgID = $(this).attr('data-soma-job-id');

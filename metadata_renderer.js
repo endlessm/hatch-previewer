@@ -3,7 +3,7 @@ const $ = require('jquery');
 const {getAssetMap, winston} = main;
 
 const extraPropsByModelType = {
-    ArticleObject: ['authors', 'published', 'sourceName'],
+    ArticleObject: ['authors', 'published', 'publishedDate', 'sourceName'],
     ImageObject: ['caption', 'height', 'width'],
     VideoObject: ['caption', 'duration', 'height', 'transcript', 'width'],
     DictionaryWordObject: ['word', 'definition', 'partOfSpeech'],
@@ -17,7 +17,6 @@ const visibleProps = [
     'canonicalURI',
     'matchingLinks',
 
-    'title',
     'synopsis',
     'thumbnail',
     'license',
@@ -61,7 +60,7 @@ exports.setMetadataAssetID = function (ID) {
 
         visibleProps.forEach(prop => _appendProp(asset, prop));
         extraPropsByModelType[asset.objectType].forEach(prop =>
-            _appendProp($, asset, prop));
+            _appendProp(asset, prop));
     }
 };
 

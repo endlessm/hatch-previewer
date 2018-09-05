@@ -10,6 +10,7 @@ const extraPropsByModelType = {
 };
 
 const visibleProps = [
+    'title',
     'assetID',
     'objectType',
     'contentType',
@@ -26,10 +27,17 @@ const visibleProps = [
 ];
 
 function _appendProp(asset, prop) {
-    if (!asset.hasOwnProperty(prop))
+    if (!(prop in asset))
         return;
+
+    const $tr = $('<tr/>');
+
+    if (asset.errors && prop in asset.errors)
+        $tr.attr('class', 'table-danger text-dark')
+            .attr('title', asset.errors[prop]);
+
     $('#metadata_table tbody')
-        .append($('<tr/>')
+        .append($tr
             .append($('<td/>')
                 .text(prop))
             .append($('<td/>')
@@ -48,15 +56,7 @@ exports.setMetadataAssetID = function (ID) {
             .append($('<table/>')
                 .attr('class', 'table table-striped table-hover table-sm smaller')
                 .attr('id', 'metadata_table')
-                .append($('<thead/>')
-                    .append($('<tr/>')
-                        .append($('<th/>')
-                            .text('Title'))
-                        .append($('<th/>')
-                            .text(asset.title || 'Unknown')))));
-
-        $('#metadata_table')
-            .append($('<tbody/>'));
+                .append($('<tbody/>')));
 
         visibleProps.forEach(prop => _appendProp(asset, prop));
         extraPropsByModelType[asset.objectType].forEach(prop =>

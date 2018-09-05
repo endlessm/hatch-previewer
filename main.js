@@ -38,10 +38,17 @@ function loadManifest(hatchFolder) {
     return JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 }
 
-function loadMetadata(metadataPath, id) {
-    const metadata = JSON.parse(fs.readFileSync(`${metadataPath}/${id}.metadata`, 'utf8'));
+function loadMetadata(hatchFolder, id) {
+    const metadata = JSON.parse(fs.readFileSync(`${hatchFolder}/${id}.metadata`, 'utf8'));
 
-    metadata.path = `${metadataPath}/${metadata.cdnFilename}`;
+    metadata.path = `${hatchFolder}/${metadata.cdnFilename}`;
+
+    const errorsPath = `${hatchFolder}/${id}.errors`;
+    if (fs.existsSync(errorsPath)) {
+        const errors = JSON.parse(fs.readFileSync(errorsPath, 'utf8'));
+        metadata.errors = errors;
+        winston.info(errors);
+    }
     return metadata;
 }
 
